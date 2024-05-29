@@ -1,0 +1,1 @@
+{"name":"Local: lakesinberland","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\lakesinberland.cpp","tests":[{"id":1716793762103,"input":"7 4 1\n****\n*..*\n****\n*..*\n****\n**.*\n..**","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\lakesinberland.cpp","group":"local","local":true}

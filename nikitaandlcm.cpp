@@ -25,7 +25,11 @@ long long gcdl(long long a, long long b){
     }
     return a + b;
 }  
-
+ll lcm(ll a,ll b)
+{
+    a=(a*b)/gcdl(a,b);
+    return a;
+}
 int gcd(int a, int b){
     while(a > 0 && b > 0){
         if(a > b){
@@ -42,87 +46,74 @@ void solve()
 {
     int n;
     cin>>n;
-    map<int,vi>arr;
-    map<int,int>cnt;
-    int ans=0;
-    set<int>nope;
+    ll ans=0;
+    map<ll,vl> arr;
+    map<ll,int> cnt;
+    set<ll> nope;
     for(int i=0;i<n;i++)
     {
-        int x;
+        ll x;
         cin>>x;
         cnt[x]++;
-        if(nope.find(x)==nope.end())
-        {
-            nope.insert(x);
-            arr[x].push_back(x);
-        }
+        arr[x].push_back(x);
+        nope.insert(x);
     }
-    int lc=1;
-        for(auto it=arr.begin();it!=arr.end();it++)
-        {
-            int a=it->first;
-            auto sit=it;
-            sit++;
-            for(;sit!=arr.end();sit++)
-            {
-                int b=sit->first;
-                if(!(b%a))
-                {
-                    vi m=arr[a];
-                    vi n=arr[b];
-                    vi o(m.size()+n.size());
-                    set_union(m.begin(),
-                   m.end(),
-                   n.begin(),
-                   n.end(),
-                   o.begin());
-                   arr[b]=o;
-                //    arr[b].push_back(b);
-                }
-            }
-        }
-    // int ans=0;
-    for(auto it=nope.begin();it!=nope.end();it++)
+    for(auto it=arr.begin();it!=arr.end();it++)
     {
-        ll a=*it;
+        ll a=it->first;
         auto sit=it;
         sit++;
-        for(;sit!=nope.end();sit++)
+        for(;sit!=arr.end();sit++)
         {
-            ll b=*sit;
-            ll g=gcd(a,b);
-            ll x=a*b;
-            x/=g;
-            if(nope.find(x)==nope.end())
+            ll b=sit->first;
+            if(!(b%a))
             {
-                int temp=0;
-                vi m,n;
+                vl m,n;
                 m=arr[a];
                 n=arr[b];
-                vi o(m.size()+n.size());
-                set_union(m.begin(),
-                   m.end(),
-                   n.begin(),
-                   n.end(),
-                   o.begin());
-                for(auto it:o)
-                temp+=cnt[it];
-                ans=max(ans,temp);
-                nope.insert(x);
-                // o.push_back(x);
-                // arr[x]=o;
-                // cnt[x]++;
+                vl o(m.size()+n.size());
+                set_union(m.begin(),m.end(),n.begin(),n.end(),o.begin());
+                while(o[o.size()-1]==0)
+                o.pop_back();
+                arr[b]=o;
             }
-
         }
     }
-    // for(auto it:arr)
-    // {
-    //     cout<<it.first<<'\n';
-    //     for(auto sit:it.second)
-    //     cout<<sit<<' ';
-    //     cout<<'\n';
-    // }
+    for(auto it=arr.begin();it!=arr.end();it++)
+    {
+        ll a=it->first;
+        auto sit=it;
+        for(;sit!=arr.end();sit++)
+        {
+            ll b=sit->first;
+            if(nope.find(a)!=nope.end() || nope.find(b)!=nope.end())
+            {ll x=lcm(a,b);
+            vl m,n,p;
+            m=arr[a];
+            n=arr[b];
+            p=arr[x];
+            vl o(m.size()+n.size());
+            set_union(m.begin(),m.end(),n.begin(),n.end(),o.begin());
+            while(o[o.size()-1]==0)
+            o.pop_back();
+            vl q(o.size()+p.size());
+            set_union(o.begin(),o.end(),p.begin(),p.end(),q.begin());
+            while(q[q.size()-1]==0)
+            q.pop_back();
+            arr[x]=q;}
+        }
+    }
+    for(auto it:arr)
+    {
+        // cout<<it.first<<'\n';
+        // for(auto sit:it.second)
+        // cout<<sit<<' ';
+        // cout<<'\n';
+        if(nope.find(it.first)!=nope.end())
+        continue;
+        ll temp=it.second.size();
+        ans=max(ans,temp);
+    }
     cout<<ans<<'\n';
 }
 
