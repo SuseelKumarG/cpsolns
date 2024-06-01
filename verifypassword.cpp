@@ -1,3 +1,7 @@
+//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
+//END
+//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
+//END
 #include <bits/stdc++.h>
 using namespace std;
  
@@ -25,7 +29,11 @@ long long gcdl(long long a, long long b){
     }
     return a + b;
 }  
-
+ll lcml(ll a,ll b)
+{
+    a=(a*b)/gcdl(a,b);
+    return a;
+}
 int gcd(int a, int b){
     while(a > 0 && b > 0){
         if(a > b){
@@ -37,54 +45,43 @@ int gcd(int a, int b){
     }
     return a + b;
 }
-
-
+int lcml(int a,int b)
+{
+    a=(a*b)/gcd(a,b);
+    return a;
+}
 
 void solve()
 {
     int n;
     cin>>n;
-    vi bit(32);
-    for(int i=0;i<32;i++)
+    string s;
+    cin>>s;
+    bool poss=1,letter=0;
+    char pn=0,pc=0;
+    for(int i=0;i<n;i++)
     {
-        if(n&(1<<i))
-        bit[i]=1;
-    }
-    bool start=0;
-    if(bit[0]&&bit[1])
-    {
-        bit[0]=-1;
-        start=1;
-    }
-    for(int i=1;i<31;i++)
-    {
-        if(start)
+        if(s[i]>='a'&&s[i]<='z')
         {
-            if(bit[i])
-            bit[i]=0;
-            else
-            {
-                bit[i]=1;
-                start=0;
-            }
+            letter=1;
+            if(pc!=0)
+            if(s[i]<pc)
+            poss=0;
+            pc=s[i];
+        }
+        else if(s[i]>='0'&&s[i]<='9')
+        {
+            if(letter)
+            poss=0;
+            if(pn!=0)
+            if(s[i]<pn)
+            poss=0;
+            pn=s[i];
         }
         else
-        {
-            if(bit[i]&&bit[i-1])
-            {
-                bit[i-1]=-1;
-                bit[i]=0;
-                start=1;
-            }
-        }
+        poss=0;
     }
-    // start=1;
-    if(start)
-    bit[31]=1;
-    cout<<bit.size()<<'\n';
-    for(auto it:bit)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()

@@ -1,3 +1,7 @@
+//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
+//END
+//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
+//END
 #include <bits/stdc++.h>
 using namespace std;
  
@@ -25,7 +29,11 @@ long long gcdl(long long a, long long b){
     }
     return a + b;
 }  
-
+ll lcml(ll a,ll b)
+{
+    a=(a*b)/gcdl(a,b);
+    return a;
+}
 int gcd(int a, int b){
     while(a > 0 && b > 0){
         if(a > b){
@@ -37,54 +45,48 @@ int gcd(int a, int b){
     }
     return a + b;
 }
-
-
+int lcml(int a,int b)
+{
+    a=(a*b)/gcd(a,b);
+    return a;
+}
 
 void solve()
 {
     int n;
     cin>>n;
-    vi bit(32);
-    for(int i=0;i<32;i++)
+    vector<int>a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    deque<int>q;
+    vi x(3);
+    int ans=-1;
+    if(n==2)
     {
-        if(n&(1<<i))
-        bit[i]=1;
-    }
-    bool start=0;
-    if(bit[0]&&bit[1])
-    {
-        bit[0]=-1;
-        start=1;
-    }
-    for(int i=1;i<31;i++)
-    {
-        if(start)
-        {
-            if(bit[i])
-            bit[i]=0;
-            else
-            {
-                bit[i]=1;
-                start=0;
-            }
-        }
+        if(a[0]<a[1])
+        cout<<a[0]<<'\n';
         else
-        {
-            if(bit[i]&&bit[i-1])
-            {
-                bit[i-1]=-1;
-                bit[i]=0;
-                start=1;
-            }
-        }
+        cout<<a[1]<<'\n';
+        return;
     }
-    // start=1;
-    if(start)
-    bit[31]=1;
-    cout<<bit.size()<<'\n';
-    for(auto it:bit)
-    cout<<it<<' ';
-    cout<<'\n';
+    for(int i=0;i<3;i++)
+    {
+        q.push_back(a[i]);
+    }
+    for(int i=0;i<3;i++)
+    x[i]=q[i];
+    sort(x.begin(),x.end());
+    ans=max(ans,x[1]);
+    for(int i=0;i<n-3;i++)
+    {
+        q.pop_front();
+        q.push_back(a[i+3]);
+        for(int i=0;i<3;i++)
+        x[i]=q[i];
+        sort(x.begin(),x.end());
+        ans=max(ans,x[1]);
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

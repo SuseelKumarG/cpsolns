@@ -1,3 +1,7 @@
+//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
+//END
+//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
+//END
 #include <bits/stdc++.h>
 using namespace std;
  
@@ -25,7 +29,11 @@ long long gcdl(long long a, long long b){
     }
     return a + b;
 }  
-
+ll lcml(ll a,ll b)
+{
+    a=(a*b)/gcdl(a,b);
+    return a;
+}
 int gcd(int a, int b){
     while(a > 0 && b > 0){
         if(a > b){
@@ -37,54 +45,39 @@ int gcd(int a, int b){
     }
     return a + b;
 }
-
-
+int lcml(int a,int b)
+{
+    a=(a*b)/gcd(a,b);
+    return a;
+}
 
 void solve()
 {
     int n;
     cin>>n;
-    vi bit(32);
-    for(int i=0;i<32;i++)
+    vi a(n);
+    set<int>ele;
+    for(int i=0;i<n;i++)
     {
-        if(n&(1<<i))
-        bit[i]=1;
+        cin>>a[i];
+        ele.insert(a[i]);
     }
-    bool start=0;
-    if(bit[0]&&bit[1])
+    sort(a.begin(),a.end());
+    int y=-1;
+    bool poss=1;
+    for(int i=1;i<n;i++)
     {
-        bit[0]=-1;
-        start=1;
-    }
-    for(int i=1;i<31;i++)
-    {
-        if(start)
+        if(a[i]%a[0])
         {
-            if(bit[i])
-            bit[i]=0;
-            else
+            if(y==-1)
+            y=i;
+            else if(a[i]%a[y])
             {
-                bit[i]=1;
-                start=0;
-            }
-        }
-        else
-        {
-            if(bit[i]&&bit[i-1])
-            {
-                bit[i-1]=-1;
-                bit[i]=0;
-                start=1;
+                poss=0;break;
             }
         }
     }
-    // start=1;
-    if(start)
-    bit[31]=1;
-    cout<<bit.size()<<'\n';
-    for(auto it:bit)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
