@@ -53,21 +53,7 @@ int lcml(int a,int b)
 
 void solve()
 {
-    ll n,m;
-    cin>>n>>m;
-    // vi bit(32,0);
-    ll ans=0;
-    int l=n-m,r=n+m;
-    for(int i=0;i<32;i++)
-    {
-        int x=(l)/(1<<i);
-        int y=r/(1<<i);
-        if(x&1 || y&1)
-        ans+=(1<<i);
-        else if(y!=x)
-        ans+=(1<<i);
-    }
-    cout<<ans<<'\n';
+    
 }
 
 int main()

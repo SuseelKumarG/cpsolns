@@ -51,40 +51,16 @@ int lcml(int a,int b)
     return a;
 }
 
-int cnt=0;
+int edges=0;
 
-bool lin=1;
-
-void dfs(int v,int p,vvi &graph)
+void dfs(int v,vvi &graph,vector<bool> &vis)
 {
-    if(graph[v].size()>2)
-    lin=0;
+    vis[v]=1;
+    edges++;
     for(auto it:graph[v])
     {
-        if(it!=p)
-        {
-            cnt+=2;
-            dfs(it,v,graph);
-        }
-    }
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
+        if(!vis[it])
+        dfs(it,graph,vis);
     }
 }
 
@@ -93,13 +69,10 @@ void solve()
     int n;
     cin>>n;
     vvi graph(n);
-    vi lev(n);
-    vector<bool>vis(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    bool poss=1;
+    map<int,int>cnt;
+    vector<bool> vis(n);
+    for(int i=0;i<n;i++)
     {
         int x,y;
         cin>>x>>y;
@@ -107,25 +80,27 @@ void solve()
         y--;
         graph[x].push_back(y);
         graph[y].push_back(x);
+        if(x==y)
+        poss=0;
+        cnt[x]++;
+        cnt[y]++;
     }
-    // cnt--;
-    cnt=0;
-    lin=1;
-    if(graph[a].size()>1)
-    lin=0;
-    dfs(a,-1,graph);
-    bfs(b,graph,lev,vis);
-
-    if(!lev[a]&&lin)
+    for(auto it:cnt)
     {
-        cout<<cnt/2<<'\n';
-        return;
+        if(it.second!=2)
+        poss=0;
     }
-    if(!lin)
-    cout<<cnt-(lev[a]-1)/2<<'\n';
-    if(lin)
-    cout<<cnt<<'\n';
-    // cout<<lev[a]<<'\n';
+    for(int i=0;i<n;i++)
+    {
+        if(!vis[i])
+        {
+            edges=0;
+            dfs(i,graph,vis);
+            if(edges&1)
+            poss=0;
+        }
+    }
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
@@ -136,7 +111,6 @@ int main()
     cin>>t;
     while(t--)
     {
-        // cout<<t<<0<<'\n';
         solve();
     }
     return 0;
