@@ -53,7 +53,55 @@ int lcml(int a,int b)
 
 void solve()
 {
-    
+    bool poss=1;
+    int n;
+    cin>>n;
+    vi a(n),b(n);
+    set<int>val;
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    for(int i=0;i<n;i++)
+    {
+        cin>>b[i];
+        val.insert(b[i]);
+    }
+    int m;
+    cin>>m;
+    map<int,vi>chk;
+    vi c(m);
+    for(int i=0;i<m;i++)
+    {
+        cin>>c[i];
+        chk[c[i]].push_back(i);
+    }
+    for(int i=0;i<n && poss;i++)
+    {
+        if(a[i]!=b[i])
+        {
+            if(chk[b[i]].empty())
+            poss=0;
+            else
+            {
+                c[chk[b[i]].back()]=0;
+                chk[b[i]].pop_back();
+                a[i]=b[i];
+            }
+        }
+    }
+    for(auto it:chk)
+    {
+        if(val.find(it.first)!=val.end())
+        {
+            for(auto sit:it.second)
+            c[sit]=0;
+        }
+    }
+    if(c[m-1])
+    poss=0;
+    for(int i=0;i<n;i++)
+    if(a[i]!=b[i])
+    poss=0;
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()

@@ -53,7 +53,65 @@ int lcml(int a,int b)
 
 void solve()
 {
-    
+    int n,k;
+    cin>>n>>k;
+    string s;
+    cin>>s;
+    bool poss=1;
+    int zer=0,one=0;
+    for(auto it:s)
+    {
+        if(it=='0')
+        zer++;
+        else
+        one++;
+    }
+    if(zer%k ||one%k)
+    poss=0;
+    if(abs(zer-one)>k)
+    poss=0;
+    int ans=0;
+    char curr=s[0];
+    int x=0;
+    for(int i=n-1;i>=n-k;i--)
+    {
+        if(s[i]!=s[n-1])
+        break;
+        x++;
+    }
+    if(x>k)
+    poss=0;
+    int len=0;
+    for(int i=0;i<n-k;i++)
+    {
+        int curr=0;
+        if(s[i]==s[n-1])
+        {
+            while(s[i]==s[n-1]){
+                i++;
+                curr++;
+            }
+        }
+        if(curr==k-x)
+        {
+            cout<<i<<'\n';
+            ans=i;
+            break;
+        }
+        if(curr==2*k-x)
+        {
+            cout<<i<<'\n';
+            ans=i-k;
+            break;
+        }
+        else if(curr!=k || curr!=2*k)
+        {
+            cout<<-1<<'\n';
+            poss=0;
+            break;
+        }
+    }
+    // cout<<ans<<'\n';
 }
 
 int main()

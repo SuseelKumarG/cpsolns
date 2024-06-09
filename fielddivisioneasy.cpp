@@ -53,7 +53,60 @@ int lcml(int a,int b)
 
 void solve()
 {
-    
+    int n,m,k;
+    cin>>n>>m>>k;
+    map<int,int>fountcol,fountrow;
+    map<pii,int>fount;
+    vector<bool> c(k);
+    for(int i=0;i<k;i++)
+    {
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        fount[{y,x}]=i;
+        if(fountcol[y]<x)
+        fountcol[y]=x;
+        if(fountrow.find(x)==fountrow.end())
+        fountrow[x]=y;
+        if(fountrow[x]>y)
+        fountrow[x]=y;
+    }
+    vii useful;
+    for(auto it:fountcol)
+    {
+        int y=it.first;
+        int x=it.second;
+        if(fountrow[x]==y && fountcol[y]==x)
+        useful.push_back({y,x});
+    }
+    ll ans=0;
+    sort(useful.begin(),useful.end());
+    int currrow=n,currcol=0;
+    int x=useful.size();
+    for(int i=0;i<x;i++)
+    {
+        int a=useful[i].first;
+        int b=useful[i].second;
+        ans+=(a-currcol+0LL)*currrow;
+        while(i<x-1)
+        {
+            if(useful[i].first!=useful[i+1].first)
+            break;
+            i++;
+        }
+        if(currrow>n-b-1)
+        {
+            c[fount[{a,b}]]=1;
+            currrow=n-1-b;
+        }
+        currcol=a;
+    }
+    ans+=(m-currcol)*(currrow+0LL);
+    cout<<ans<<'\n';
+    for(auto it:c)
+    cout<<it<<' ';
+    cout<<'\n'; 
 }
 
 int main()

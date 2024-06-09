@@ -51,94 +51,67 @@ int lcml(int a,int b)
     return a;
 }
 
-int cnt=0;
-
-bool lin=1;
-
-void dfs(int v,int p,vvi &graph)
+bool casee(int x,vi &a,int n)
 {
-    if(graph[v].size()>2)
-    lin=0;
-    for(auto it:graph[v])
+    if(x<0)
+    return 0;
+    vi ax(n-1);
+    int c=0;
+    for(int i=0;i<n;i++)
     {
-        if(it!=p)
-        {
-            cnt+=2;
-            dfs(it,v,graph);
-        }
+        if(i!=x)
+        {ax[c]=a[i];
+        c++;}
     }
+    vi b(n-2);
+    for(int i=0;i<n-2;i++)
+    {
+        b[i]=gcd(ax[i],ax[i+1]);
+    }
+    for(int i=0;i<n-3;i++)
+    {
+        if(b[i]>b[i+1])
+        return 0;
+    }
+    
+    return 1;
 }
 
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
 
 void solve()
 {
+    bool poss=1;
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
+    vi a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    // if(gcd(a[0],a[1])==1||gcd(a[2],a[1])==1||gcd(a[0],a[2])==1)
+    // {
+    //     cout<<"YES\n";
+    //     return;
+    // }
+    vi b(n-1);
     for(int i=0;i<n-1;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        b[i]=gcd(a[i],a[i+1]);
     }
-    // cnt--;
-    cnt=0;
-    lin=1;
-    if(graph[a].size()>1)
-    lin=0;
-    dfs(a,-1,graph);
-    bfs(b,graph,lev,vis);
-    bfs(b,graph,dep,vis2);
-    if(!lev[a]&&lin)
+    int ind=-1;
+    for(int i=0;i<n-2;i++)
     {
-        cout<<cnt/2<<'\n';
+        if(b[i]>b[i+1])
+        {
+            ind=i;
+            break;
+        }
+    }
+    if(ind<0)
+    {
+        cout<<"YES\n";
         return;
     }
-    if(!lin)
-    {
-        cout<<cnt-(lev[a]-1)/2<<'\n';
-        return;
-    }
-    if(lin)
-    {
-        cout<<cnt<<'\n';
-        return;
-    }
-    int mx=-1;
-    for(int i=0;i<n;i++)
-    if(mx<dep[i])
-    mx=dep[i];
-    
-    // cout<<lev[a]<<'\n';
+    poss=(casee(ind,a,n)||casee(ind+2,a,n)||casee(ind+1,a,n));
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
@@ -149,7 +122,6 @@ int main()
     cin>>t;
     while(t--)
     {
-        // cout<<t<<0<<'\n';
         solve();
     }
     return 0;

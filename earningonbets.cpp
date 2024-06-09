@@ -53,7 +53,25 @@ int lcml(int a,int b)
 
 void solve()
 {
-    
+    int n;
+    cin>>n;
+    vl a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    ll x=1;
+    for(int i=0;i<n;i++)
+        x=lcml(a[i],x);
+    ll coins=0;
+    for(int i=0;i<n;i++)
+    coins+=x/a[i];
+    if(x<=coins)
+    cout<<-1<<'\n';
+    else
+    {
+        for(auto it:a)
+        cout<<x/it<<' ';
+        cout<<'\n';
+    }
 }
 
 int main()

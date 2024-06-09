@@ -53,7 +53,56 @@ int lcml(int a,int b)
 
 void solve()
 {
-    
+    bool poss=1;
+    int n,m;
+    cin>>n>>m;
+    vvi a(n),b(n);
+    vi temp(m);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        cin>>temp[j];
+        a[i]=temp;
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        cin>>temp[j];
+        b[i]=temp;
+    }
+    set<set<int>>ar;
+    set<set<int>>ac;
+    set<set<int>>br;
+    set<set<int>>bc;
+    set<int>bot;
+    set<int>bot1;
+    for(int i=0;i<n;i++)
+    {
+        bot.clear();
+        bot1.clear();
+        for(int j=0;j<m;j++)
+        {
+            bot.insert(a[i][j]);
+            bot1.insert(b[i][j]);
+        }
+        ar.insert(bot);
+        br.insert(bot1);
+    }
+    for(int i=0;i<m;i++)
+    {
+        bot.clear();
+        bot1.clear();
+        for(int j=0;j<n;j++)
+        {
+            bot.insert(a[j][i]);
+            bot1.insert(b[j][i]);
+        }
+        ac.insert(bot);
+        bc.insert(bot1);
+    }
+    if(ar!=br || ac!=bc)
+    poss=0;
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
