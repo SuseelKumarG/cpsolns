@@ -60,7 +60,6 @@ void solve()
     cin>>a[i];
     vi dp(n,INT_MAX);
     dp[0]=0;
-    // dp[1]=abs(a[1]-a[0]);
     for(int i=1;i<k;i++)
     {
         for(int j=1;j<=i;j++)
