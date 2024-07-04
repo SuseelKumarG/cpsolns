@@ -14,9 +14,11 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,57 +51,73 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
 
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
+    string s;
+    cin>>s;
+    if(n==2)
+    {
+        if(s[0]-'0')
+        cout<<s<<'\n';
+        else
+        cout<<s[1]<<'\n';
+        return;
+    }
+    bool zer=0;
+    for(auto it:s)
+    if(it=='0')
+    zer=1;
+    if(zer)
+    {
+        if(n>3)
+        cout<<0<<'\n';
+        else
+        {
+            if(s[1]-'0')
+            cout<<0<<'\n';
+            else
+            {
+                int a=s[0]-'0';
+                int b=s[2]-'0';
+                cout<<min(a+b,a*b)<<'\n';
+            }
+        }
+        return;
+    }
+    int ans=INT_MAX;
     for(int i=0;i<n-1;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        vi v;
+        for(int j=0;j<n;j++)
+        {
+            if(j==i)
+            {
+                int x=(s[j]-'0')*10+(s[j+1]-'0');
+                v.push_back(x);
+                j++;
+            }
+            else
+            v.push_back(s[j]-'0');
+        }
+        int x=v[0];
+        if(v[0]==1)
+        x=0;
+        // for(auto it:v)
+        // cout<<it<<' ';
+        for(int k=1;k<v.size();k++)
+        {
+            if(v[k]==1)
+            continue;
+            x+=v[k];
+        }
+        ans=min(ans,x);
     }
-
+    cout<<ans<<'\n';
 }
 
 int main()

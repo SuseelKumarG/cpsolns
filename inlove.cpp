@@ -14,9 +14,10 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,57 +50,35 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    int t;
+    cin>>t;
+    multiset<int> lb,rb;
+    char ch;
+    int l,r;
+    while(t--)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        cin>>ch>>l>>r;
+        if(ch=='+')
+        {
+            lb.insert(l);
+            rb.insert(r);
+        }
+        else
+        {
+            lb.erase(lb.find(l));
+            rb.erase(rb.find(r));
+        }
+        bool poss=0;
+        if(!rb.empty()&&!lb.empty())
+        if((*rb.begin())<(*(--(lb.end()))))
+        poss=1;
+        cout<<(poss?"YES":"NO")<<'\n';
     }
-
 }
 
 int main()
@@ -107,7 +86,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
+    // cin>>t;
     while(t--)
     {
         // cout<<t<<0<<'\n';

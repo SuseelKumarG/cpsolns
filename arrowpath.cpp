@@ -14,9 +14,12 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+typedef vector<vb> vvb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,57 +52,52 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int steps;
+bool poss=0;
 
-void dfs(int v,int p,vvi &graph)
+void dfs(vector<string> &graph,int i,int j,int n,vvb &vis,bool choose)
 {
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
+    if(i<0||i>1)
+    return;
+    if(j<0||j>=n)
+    return;
+    if(vis[i][j])
+    return;
+    if(i==1&&j==n-1)
     {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
+        poss=1;
+        return;
     }
+    vis[i][j]=1;
+    if(choose)
+    {
+        if(graph[i][j]=='>')
+        dfs(graph,i,j+1,n,vis,0);
+        else
+        dfs(graph,i,j-1,n,vis,0);
+    }
+    else
+    {dfs(graph,i,j+1,n,vis,1);
+    dfs(graph,i,j-1,n,vis,1);
+    dfs(graph,i+1,j,n,vis,1);
+    dfs(graph,i-1,j,n,vis,1);}
 }
 
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
-    {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
-    }
-
+    vector<string> graph(2);
+    vvb vis(2,vb(n,0));
+    for(int i=0;i<2;i++)
+    cin>>graph[i];
+    // cout<<graph[0]<<'\n'<<graph[1]<<'\n';
+    // cout<<'\n';
+    poss=0;
+    dfs(graph,0,0,n,vis,0);
+    dfs(graph,0,0,n,vis,1);
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()

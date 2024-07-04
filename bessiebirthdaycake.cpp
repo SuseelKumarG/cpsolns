@@ -6,6 +6,7 @@
 using namespace std;
  
 typedef long long ll;
+typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -14,9 +15,12 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+typedef vector<vb> vvb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,57 +53,76 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
-
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
+} 
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    int n,x,y;
+    cin>>n>>x>>y;
+    vi a(x);
+    for(int i=0;i<x;i++)
+    cin>>a[i];
+    sort(all(a));
+    ull ans=0;
+    if(x>2)
+    ans+=(x-2);
+    vi odd,eve;
+    for(int i=1;i<x;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        int dist=a[i]-a[i-1]-1;
+        if(dist)
+        {
+            if(dist>1)
+            if(dist&1)
+            odd.push_back(dist);
+            else
+            eve.push_back(dist);
+            else
+            ans++;
+        }
     }
-
+    int dist=n+a[0]-a[x-1]-1;
+    if(dist)
+    {
+        if(dist>1)
+        if(dist&1)
+        odd.push_back(dist);
+        else
+        eve.push_back(dist);
+        else
+        ans++;
+    }
+    sort(all(odd));
+    sort(all(eve));
+    for(int i=0;i<odd.size();i++)
+    {
+        int k=odd[i]>>1;
+        if(y>=k)
+        {
+            ans+=odd[i];
+            y-=k;
+        }
+        else
+        {
+            ans+=y<<1;
+            y=0;
+        }
+    }
+    for(int i=0;i<eve.size();i++)
+    {
+        int k=eve[i]>>1;
+        if(y>=k)
+        {
+            ans+=eve[i];
+            y-=k;
+        }
+        else
+        {
+            ans+=y<<1;
+            y=0;
+        }
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

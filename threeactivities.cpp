@@ -51,55 +51,59 @@ int lcml(int a,int b)
     return a;
 }
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
+ll sol(vii &a,vii&b,vii&c,int n)
 {
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
+    ll sum=a[0].first;
+    set<int> ind;
+    ind.insert(a[0].second);
+    int i=0;
+    while(ind.find(b[i].second)!=ind.end())
+    i++;
+    sum+=b[i].first;
+    ind.insert(b[i].second);
+    i=0;
+    while(ind.find(c[i].second)!=ind.end())
+    i++;
+    sum+=c[i].first;
+    ind.insert(c[i].second);
+    i=0;
+    return sum;
 }
 
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    vii a(n),b(n),c(n);
+    for(int i=0;i<n;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        cin>>a[i].first;
+        a[i].second=i;
     }
-
+    for(int i=0;i<n;i++)
+    {
+        cin>>b[i].first;
+        b[i].second=i;
+    }
+    for(int i=0;i<n;i++)
+    {
+        cin>>c[i].first;
+        c[i].second=i;
+    }
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+    sort(c.begin(),c.end());
+    reverse(a.begin(),a.end());
+    reverse(b.begin(),b.end());
+    reverse(c.begin(),c.end());
+    ll ans=0;
+    ans=max(ans,sol(a,b,c,n));
+    ans=max(ans,sol(a,c,b,n));
+    ans=max(ans,sol(b,a,c,n));
+    ans=max(ans,sol(b,c,a,n));
+    ans=max(ans,sol(c,b,a,n));
+    ans=max(ans,sol(c,a,b,n));
+    cout<<ans<<'\n';
 }
 
 int main()

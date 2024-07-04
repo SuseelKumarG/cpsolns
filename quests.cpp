@@ -51,55 +51,39 @@ int lcml(int a,int b)
     return a;
 }
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
-
 void solve()
 {
-    int n;
-    cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    int n,k;
+    cin>>n>>k;
+    vi a(n),b(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    for(int i=0;i<n;i++)
+    cin>>b[i];
+    vi x(n);
+    int maxm=0;
+    for(int i=0;i<n;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        if(maxm<b[i])
+        {
+            maxm=b[i];
+        }
+        x[i]=maxm;
     }
-
+    for(int i=1;i<n;i++)
+    a[i]+=a[i-1];
+    ll ans=0;
+    for(int i=0;i<min(n,k);i++)
+    {
+        ll temp=a[i];
+        if(k-1>i)
+        temp+=(k-i-1)*x[i];
+        ans=max(ans,temp);
+    }
+    // for(auto it:a)
+    // cout<<it<<' ';
+    // cout<<'\n';
+    cout<<ans<<'\n';
 }
 
 int main()

@@ -6,6 +6,7 @@
 using namespace std;
  
 typedef long long ll;
+typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -13,10 +14,12 @@ typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
+typedef vector<ull> vul;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,57 +52,43 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
 
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    vul a(n);
+    vi bits(n);
+    for(int i=0;i<n;i++)
+        cin>>a[i];
+    ll cnt=0;
+    if(n==1)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        cout<<0<<'\n';
+        return;
     }
-
+    ll curr=0;
+    for(int i=1;i<n;i++)
+    {
+        if(a[i-1]>a[i])
+        {
+            int x=0;
+            while((a[i]<<(x))<a[i-1])
+            x++;
+            curr+=x;
+        }
+        else{
+            int x=0;
+            while((a[i-1]<<(x+1))<=a[i])
+            x++;
+            curr-=x;
+            curr=max(0LL,curr);
+        }
+        cnt+=curr;
+    }
+    cout<<cnt<<'\n';
 }
 
 int main()

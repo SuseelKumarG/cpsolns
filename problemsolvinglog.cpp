@@ -51,55 +51,24 @@ int lcml(int a,int b)
     return a;
 }
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
-
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    string s;
+    cin>>s;
+    vi a(26);
+    for(int i=0;i<n;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        a[s[i]-'A']++;
     }
-
+    int ans=0;
+    for(int i=0;i<26;i++)
+    {
+        if(a[i]>=i+1)
+        ans++;
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

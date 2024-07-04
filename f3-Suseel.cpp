@@ -14,6 +14,7 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
 #define MAX 1000000007
 #define N 10010
@@ -51,55 +52,20 @@ int lcml(int a,int b)
     return a;
 }
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
-{
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
-}
-
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    vvi graph(n+5);
+    for(int i=2;i<=n;i++)
     {
-        int x,y;
-        cin>>x>>y;
+        int x;
+        cin>>x;
         x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        graph[i-1].push_back(x);
+        graph[x].push_back(i-1);
     }
-
+    
 }
 
 int main()

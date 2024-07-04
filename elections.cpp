@@ -14,10 +14,13 @@ typedef vector<int> vi;
 typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
+typedef vector<ull> vul;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -50,65 +53,48 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
 void solve()
 {
-    bool poss=1;
-    ull n,k;
-    cin>>n>>k;
-    if(k&1||k>n*(n+1)/2)
+    int n,c;
+    cin>>n>>c;
+    vi a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    a[0]+=c;
+    int maxm=0;
+    map<int,vi>chk;
+    for(int i=0;i<n;i++)
     {
-        cout<<"NO\n";
-        return;
+        if(maxm<a[i])
+        maxm=a[i];
+        chk[a[i]].push_back(i);
     }
-    vi a(n+1);
-    set<int>chk;
-    for(int i=1;i<=n;i++)
+    vul pref(n);
+    pref[0]=a[0];
+    for(int i=1;i<n;i++)
     {
-        a[i]=i;
-        chk.insert(i);
+        pref[i]=pref[i-1]+a[i];
     }
-    // vb vis(n+1);
-    for(int i=1;i<=n&&k;i++)
+    for(int i=0;i<n;i++)
     {
-        if(chk.find(i)!=chk.end())
-        {if(2*1ull*abs(a[*(--(chk.end()))]-a[i])<=k)
+        if(a[i]<maxm)
         {
-            k-=2*1ull*abs(a[*(--(chk.end()))]-a[i]);
-            swap(a[*(--(chk.end()))],a[i]);
-            chk.erase(i);
-            chk.erase((--(chk.end())));
+            if(pref[i]<maxm)
+            cout<<i+1<<' ';
+            else
+            cout<<i<<' ';
         }
-        else
+        if(a[i]==maxm)
         {
-            int x=i+k/2;
-            int y=i-k/2;
-            if(chk.find(y)!=chk.end())
-            {
-                chk.erase(i);
-                chk.erase(y);
-                swap(a[i],a[y]);
-                k=0;
-            }
-            if(chk.find(x)!=chk.end())
-            {
-                chk.erase(i);
-                chk.erase(x);
-                swap(a[i],a[x]);
-                k=0;
-            }
-        }}
+            if(chk[a[i]][0]!=i)
+            cout<<i<<' ';
+            else
+            cout<<0<<' ';
+        }
     }
-    if(!k)
-    {
-        cout<<"YES\n";
-        for(int i=1;i<=n;i++)
-        cout<<a[i]<<' ';
-        cout<<'\n';
-    }
-    else
-    cout<<"NO\n";
+    cout<<'\n';
 }
 
 int main()
@@ -119,6 +105,8 @@ int main()
     cin>>t;
     while(t--)
     {
+        // cout<<t<<0<<'\n';
+        // cout<<t<<'\n';
         solve();
     }
     return 0;

@@ -14,9 +14,11 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,55 +51,43 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
+int n,m;
+int tem(int i,int j,vvi &a)
 {
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
-    {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
-        }
-    }
+    if(i<0||j<0||i>=n||j>=m)
+    return 0;
+    return a[i][j];
 }
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
+    cin>>n>>m;
+    vvi a(n,vi(m,0));
+    for(int i=0;i<n;i++)
+    for(int j=0;j<m;j++)
+    cin>>a[i][j];
+    for(int i=0;i<n;i++)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        for(int j=0;j<m;j++)
+        {
+            int x=INT_MIN;
+            x=max(x,tem(i-1,j,a));
+            x=max(x,tem(i,j-1,a));
+            x=max(x,tem(i+1,j,a));
+            x=max(x,tem(i,j+1,a));
+            if(a[i][j]>x)
+            a[i][j]=x;
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            cout<<a[i][j]<<' ';
+        }
+        cout<<'\n';
     }
 
 }

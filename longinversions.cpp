@@ -14,9 +14,11 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,57 +51,66 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int steps;
-
-void dfs(int v,int p,vvi &graph)
+bool poss(int n,int k,string s)
 {
-    
-}
-
-void bfs(int x,vvi &graph,vi &lev,vector<bool> &vis)
-{
-    queue<int>q;
-    q.push(x);
-    vis[x]=1;
-    while(!q.empty())
+    for(int i=0;i<=n-k;i++)
     {
-        int v = q.front();
-        q.pop();
-        for (int u : graph[v]) {
-        if (!vis[u]) {
-            vis[u] = 1;
-            q.push(u);
-            lev[u] = lev[v] + 1;
-        }
+        if(s[i]=='0')
+        {
+            int ind=-1;
+            for(int j=0;j<k;j++)
+            {
+                if(i+j<n)
+                {
+                    s[i+j]=(!(s[i+j]-'0')+'0');
+                    if(!(s[i+j]-'0')&&ind==-1)
+                    ind=i+j;
+                }
+                else
+                {
+                    // cout<<i<<' '<<j<<' '<<k<<'\n';
+                    return 0;
+                }
+            }
+            i=ind-1;
         }
     }
+    cout<<s<<'\n';
+    for(int i=n-k;i<n;i++)
+    {
+        if(s[i]!='1')
+        return 0;
+    }
+    return 1;
 }
 
 void solve()
 {
     int n;
     cin>>n;
-    vvi graph(n);
-    vi lev(n);
-    vi dep(n,0);
-    vector<bool>vis(n);
-    vector<bool>vis2(n);
-    int a,b;
-    cin>>a>>b;
-    a--;
-    b--;
-    for(int i=0;i<n-1;i++)
-    {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
-    }
-
+    string s;
+    cin>>s;
+    set<char>ch;
+    for(auto it:s)
+    ch.insert(it);
+    int ans=1;
+    int k=0;
+    string x=s;
+    sort(all(x));
+    for(auto it:x)
+    if(it=='0')
+    k++;
+    if(ch.size()==1)
+    {ans=n;
+    goto A;}
+    for(int i=n;i>0;i--)
+    if(poss(n,i,s))
+    {ans=i;
+    break;}
+    A:
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -111,6 +122,7 @@ int main()
     while(t--)
     {
         // cout<<t<<0<<'\n';
+        // cout<<t<<'\n';
         solve();
     }
     return 0;
