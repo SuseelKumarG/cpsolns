@@ -6,6 +6,7 @@
 using namespace std;
  
 typedef long long ll;
+typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -14,9 +15,12 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+typedef vector<vb> vvb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,46 +53,50 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
+} 
+
+ll modexp(ll base,ll exp) 
+{
+    ll ans=1;
+    while(exp>0)
+    {
+        if(exp%2==1) ans=(ans*base)%MAX;
+        base=(base*base)%MAX;
+        exp/=2;
+    }
+    return ans;
 }
 
-int ans=1;
-
-int rec(vi &a,int ind,vi &dp)
+void ans(int &u,int x,int n)
 {
-    if(dp[ind]!=-1)
-    return dp[ind];
-    int temp=0;
-    for(int i=ind-1;i>=0;i--)
+    if(x==n-1)
+    u=-1;
+    else
     {
-        if(a[i]<a[ind])
-        {
-            temp=max(temp,rec(a,i,dp));
-        }
+        u=x;
     }
-    dp[ind]=temp+1;
-    return dp[ind];
 }
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vi a(n);
-    vi dp(n,-1);
-    for(int i=0;i<n;i++)
+    int n,q;
+    cin>>n>>q;
+    for(int i=1;i<n;i++)
+    cout<<i<<' '<<i+1<<'\n';
+    int curr=n-1;
+    while(q--)
     {
-        cin>>a[i];
+        int x;
+        cin>>x;
+        // int u,v;
+        if(x==curr)
+        {
+            cout<<-1<<' '<<-1<<' '<<-1<<'\n';
+            continue;
+        }
+        cout<<n<<' '<<curr<<' '<<x<<'\n';        
+        curr=x;
     }
-    for(int i=n-1;i>=0;i--)
-    {
-        rec(a,i,dp);
-    }
-    int x=0;
-    for(int i=0;i<n;i++)
-    {
-        x=max(x,dp[i]);
-    }
-    cout<<x<<'\n';
 }
 
 int main()
@@ -96,10 +104,11 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    // cin>>t;
+    cin>>t;
     while(t--)
     {
+        // cout<<t<<"YO"<<'\n';
         solve();
     }
     return 0;
-}
+}   

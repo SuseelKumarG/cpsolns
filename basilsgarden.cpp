@@ -6,6 +6,7 @@
 using namespace std;
  
 typedef long long ll;
+typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -14,9 +15,12 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
+typedef vector<vb> vvb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -49,24 +53,18 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-}
+} 
 
-int ans=1;
-
-int rec(vi &a,int ind,vi &dp)
+ll modexp(ll base,ll exp) 
 {
-    if(dp[ind]!=-1)
-    return dp[ind];
-    int temp=0;
-    for(int i=ind-1;i>=0;i--)
+    ll ans=1;
+    while(exp>0)
     {
-        if(a[i]<a[ind])
-        {
-            temp=max(temp,rec(a,i,dp));
-        }
+        if(exp%2==1) ans=(ans*base)%MAX;
+        base=(base*base)%MAX;
+        exp/=2;
     }
-    dp[ind]=temp+1;
-    return dp[ind];
+    return ans;
 }
 
 void solve()
@@ -74,21 +72,17 @@ void solve()
     int n;
     cin>>n;
     vi a(n);
-    vi dp(n,-1);
     for(int i=0;i<n;i++)
+    cin>>a[i];
+    int ans=a[n-1];
+    for(int i=n-2;i>=0;i--)
     {
-        cin>>a[i];
+        if(a[i+1]>=a[i])
+        ans++;
+        else
+        ans=max(ans+1,a[i]);
     }
-    for(int i=n-1;i>=0;i--)
-    {
-        rec(a,i,dp);
-    }
-    int x=0;
-    for(int i=0;i<n;i++)
-    {
-        x=max(x,dp[i]);
-    }
-    cout<<x<<'\n';
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -96,9 +90,10 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    // cin>>t;
+    cin>>t;
     while(t--)
     {
+        // cout<<t<<"YO"<<'\n';
         solve();
     }
     return 0;

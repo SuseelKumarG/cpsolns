@@ -6,6 +6,7 @@
 using namespace std;
  
 typedef long long ll;
+typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -15,6 +16,7 @@ typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<bool> vb;
+typedef vector<string> vs;
 #define MAX 1000000007
 #define N 10010
 
@@ -51,44 +53,31 @@ int lcml(int a,int b)
     return a;
 }
 
-int ans=1;
 
-int rec(vi &a,int ind,vi &dp)
-{
-    if(dp[ind]!=-1)
-    return dp[ind];
-    int temp=0;
-    for(int i=ind-1;i>=0;i--)
-    {
-        if(a[i]<a[ind])
-        {
-            temp=max(temp,rec(a,i,dp));
-        }
-    }
-    dp[ind]=temp+1;
-    return dp[ind];
-}
 
 void solve()
 {
     int n;
     cin>>n;
     vi a(n);
-    vi dp(n,-1);
+    set<int>unique;
+    map<int,int>cnt;
     for(int i=0;i<n;i++)
     {
         cin>>a[i];
+        unique.insert(a[i]);
+        cnt[a[i]]++;
     }
-    for(int i=n-1;i>=0;i--)
+    sort(a.begin(),a.end());
+    int i=0;
+    int ans=0;
+    for(auto it:unique)
     {
-        rec(a,i,dp);
+        if(i&1)
+        {
+
+        }
     }
-    int x=0;
-    for(int i=0;i<n;i++)
-    {
-        x=max(x,dp[i]);
-    }
-    cout<<x<<'\n';
 }
 
 int main()
@@ -96,7 +85,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    // cin>>t;
+    cin>>t;
     while(t--)
     {
         solve();

@@ -1,0 +1,1 @@
+{"name":"Local: binarycut","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\binarycut.cpp","tests":[{"id":1720078434649,"input":"6\n11010\n00000000\n1\n10\n0001111\n0110\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\binarycut.cpp","group":"local","local":true}

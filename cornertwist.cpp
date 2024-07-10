@@ -15,6 +15,7 @@ typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<bool> vb;
+typedef vector<string> vs;
 #define MAX 1000000007
 #define N 10010
 
@@ -71,24 +72,44 @@ int rec(vi &a,int ind,vi &dp)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vi a(n);
-    vi dp(n,-1);
+    bool poss=1;
+    int n,m;
+    cin>>n>>m;
+    vs a(n);
+    vs b(n);
+    vvi act(n,vi(m));
+    set<int>ax,bx;
+    for(int i=0;i<n;i++) cin>>a[i];
+    for(int i=0;i<n;i++) cin>>b[i];
     for(int i=0;i<n;i++)
     {
-        cin>>a[i];
+        for(int j=0;j<m;j++)
+        {
+            if(b[i][j]!=a[i][j])
+            {
+                if(b[i][j]<a[i][j])
+                b[i][j]+=3;
+                act[i][j]=b[i][j]-a[i][j];
+            }
+        }
     }
-    for(int i=n-1;i>=0;i--)
+    for(int i=0;i<n&&poss;i++)
     {
-        rec(a,i,dp);
+        int sum=0;
+        for(int j=0;j<m&&poss;j++)
+        sum+=act[i][j];
+        if(sum%3)
+        poss=0;
     }
-    int x=0;
-    for(int i=0;i<n;i++)
+    for(int i=0;i<m&&poss;i++)
     {
-        x=max(x,dp[i]);
+        int sum=0;
+        for(int j=0;j<n&&poss;j++)
+        sum+=act[j][i];
+        if(sum%3)
+        poss=0;
     }
-    cout<<x<<'\n';
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
@@ -96,7 +117,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    // cin>>t;
+    cin>>t;
     while(t--)
     {
         solve();

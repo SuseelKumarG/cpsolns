@@ -55,67 +55,66 @@ void solve()
 {
     int n,m;
     cin>>n>>m;
-    vi cp(n+m+1);
-    vi ct(n+m+1);
-    for(int i=0;i<n+m+1;i++)
-    cin>>cp[i];
-    for(int i=0;i<n+m+1;i++)
-    cin>>ct[i];
-    vector<bool>p(n+m+1);
-    map<int,set<pair<int,int>>>pro;
-    if(n)
-    {for(int i=0;i<n+m+1;i++)
+    int x=n+m+1;
+    vii pt(x);
+    for(int i=0;i<x;i++) cin>>pt[i].first;
+    for(int i=0;i<x;i++) cin>>pt[i].second;
+    int walter_white=-1;
+    vb p(x);
+    ll sum=0;
+    for(int i=0;i<x-1;i++)
     {
-        if(cp[i]>ct[i])
+        if(pt[i].first>pt[i].second)
         {
-            if(pro.size()==n)
+            if(n)
             {
-                auto it=pro.begin();
-                if(it->first<cp[i])
-                {
-                    p[i]=1;
-                    p[(--(it->second.end()))->second]=0;
-                    it->second.erase((--(it->second.end())));
-                    if(it->second.empty())
-                    pro.erase(it);
-                    pro[cp[i]].insert({ct[i],i});
-                }
-                else if(it->first==cp[i])
-                {
-                    if(pro[cp[i]].end()->first>ct[i])
-                    {
-                        p[(--(it->second.end()))->second]=0;
-                        it->second.erase((--(it->second.end())));
-                        pro[cp[i]].insert({ct[i],i});
-                        p[i]=1;
-                    }
-                }
+                n--;
+                p[i]=1;
+                sum+=pt[i].first;
             }
             else
             {
-                pro[cp[i]].insert({ct[i],i});
-                p[i]=1;
+                if(walter_white==-1) walter_white=i;
+                sum+=pt[i].second;
             }
         }
-    }}
-    int sum=0;
-    for(int i=0;i<n+m+1;i++)
-    {
-        if(p[i])
-        sum+=cp[i];
         else
-        sum+=ct[i];
+        {
+            if(m)
+            {
+                m--;
+                sum+=pt[i].second;
+            }
+            else
+            {
+                p[i]=1;
+                sum+=pt[i].first;
+                if(walter_white==-1) walter_white=i;
+            }
+        }
     }
-    // for(int i=0;i<n+m+1;i++)
-    // {
-    //     if(p[i])
-    //     cout<<sum-cp[i]<<' ';
-    //     else
-    //     cout<<sum-ct[i]<<' ';
-    // }
+    // cout<<sum<<'\n';
     for(auto it:p)
     cout<<it<<' ';
     cout<<'\n';
+    for(int i=0;i<x;i++)
+    {
+        if(i<walter_white&&p[walter_white]!=p[i])
+        {
+            if(p[i])
+            cout<<sum+pt[walter_white].first-pt[walter_white].second-pt[i].first+pt[x-1].second;
+            else
+            cout<<sum+pt[walter_white].second-pt[walter_white].first-pt[i].second+pt[x-1].first;
+            // cout<<
+        }
+        else
+        {
+            if(p[i])
+            cout<<sum-pt[i].first+pt[x-1].first;
+            else
+            cout<<sum-pt[i].second+pt[x-1].second;
+        }
+    }
 }
 
 int main()
@@ -126,6 +125,7 @@ int main()
     cin>>t;
     while(t--)
     {
+        // cout<<t<<"YO\n";
         solve();
     }
     return 0;

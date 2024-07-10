@@ -51,8 +51,6 @@ int lcml(int a,int b)
     return a;
 }
 
-int ans=1;
-
 int rec(vi &a,int ind,vi &dp)
 {
     if(dp[ind]!=-1)
@@ -60,13 +58,12 @@ int rec(vi &a,int ind,vi &dp)
     int temp=0;
     for(int i=ind-1;i>=0;i--)
     {
-        if(a[i]<a[ind])
+        if(a[i]==a[ind]-1)
         {
             temp=max(temp,rec(a,i,dp));
         }
     }
-    dp[ind]=temp+1;
-    return dp[ind];
+    return dp[ind]=temp+1;
 }
 
 void solve()
@@ -74,21 +71,37 @@ void solve()
     int n;
     cin>>n;
     vi a(n);
-    vi dp(n,-1);
+    for(int i=0;i<n;i++) cin>>a[i];
+    map<int,int>ext,dp;
+    for(int i=0;i<n;i++) ext[a[i]]=i;
+    
+    // for(int i=n-1;i>-1;i--)
+    // rec(a,i,dp);
+    vi tt;
+    int ans=0;
+    int ind=0;
     for(int i=0;i<n;i++)
     {
-        cin>>a[i];
+        dp[a[i]]=dp[a[i]-1]+1;
+        if(dp[a[i]]>ans)   
+        {
+            ans=dp[a[i]];
+            ind=a[i];
+        }
     }
-    for(int i=n-1;i>=0;i--)
+    cout<<ans<<'\n';
+    for(int i=n-1;i>-1;i--)
     {
-        rec(a,i,dp);
+        if(a[i]==ind)
+        {
+            tt.push_back(i);
+            ind--;
+        }
     }
-    int x=0;
-    for(int i=0;i<n;i++)
-    {
-        x=max(x,dp[i]);
-    }
-    cout<<x<<'\n';
+	reverse(tt.begin(), tt.end());
+    for(auto it:tt)
+    cout<<it+1<<' ';
+    cout<<'\n';
 }
 
 int main()
@@ -99,6 +112,7 @@ int main()
     // cin>>t;
     while(t--)
     {
+        // cout<<t<<"YO\n";
         solve();
     }
     return 0;
