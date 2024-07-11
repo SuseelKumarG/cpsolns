@@ -52,32 +52,36 @@ int lcml(int a,int b)
     a=(a*b)/gcd(a,b);
     return a;
 }
-
-
+int dp[5010][5010];
+int chk(int i,int n,vi &a,int step)
+{
+    if(i==n)
+    return 0;
+    if(dp[i][step]!=-1)
+    return dp[i][step];
+    int ans=chk(i+1,n,a,step+1);
+    if(a[i]<=step)
+    ans=max(chk(i+1,n,a,step-a[i])+1,ans);
+    return dp[i][step]=ans;
+}
 
 void solve()
 {
     int n;
     cin>>n;
     vi a(n);
-    set<int>unique;
+    vi unique;
     map<int,int>cnt;
     for(int i=0;i<n;i++)
-    {
-        cin>>a[i];
-        unique.insert(a[i]);
+        cin>>a[i],
         cnt[a[i]]++;
-    }
-    sort(a.begin(),a.end());
-    int i=0;
-    int ans=0;
-    for(auto it:unique)
-    {
-        if(i&1)
-        {
-
-        }
-    }
+    for(auto it:cnt)
+    unique.push_back(it.second);
+    n=unique.size();
+    for(int i=0;i<n+5;i++)
+    for(int j=0;j<n+5;j++)
+    dp[i][j]=-1;
+    cout<<n-chk(0,n,unique,0)<<'\n';
 }
 
 int main()
