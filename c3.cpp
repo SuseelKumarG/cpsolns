@@ -1,12 +1,7 @@
-//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
-//END
-//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
-//END
 #include <bits/stdc++.h>
 using namespace std;
  
 typedef long long ll;
-typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -17,10 +12,8 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-typedef vector<vb> vvb;
-#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-const int N =3e5+10;
+#define N 10010
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -53,64 +46,51 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-} 
-
-ll modexp(ll base,ll exp) 
-{
-    ll ans=1;
-    while(exp>0)
-    {
-        if(exp%2==1) ans=(ans*base)%MAX;
-        base=(base*base)%MAX;
-        exp/=2;
-    }
-    return ans;
-}
-
-void ans(int &u,int x,int n)
-{
-    if(x==n-1)
-    u=-1;
-    else
-    {
-        u=x;
-    }
 }
 
 void solve()
 {
-    int n;
-    cin>>n;
-    vi a(n);
-    for(int i=0;i<n;i++) cin>>a[i];
-    
+    int n,q;
+    cin>>n>>q;
+    string a,b;
+    cin>>a>>b;
+    vvi ca(n+1,vi(26)),cb;
+    cb=ca;
+    for(int i=0;i<n;i++)
+    {
+        ca[i+1]=ca[i];
+        cb[i+1]=cb[i];
+        ca[i+1][a[i]-'a']++;
+        cb[i+1][b[i]-'a']++;
+    }
+    while(q--)
+    {
+        int l,r;
+        cin>>l>>r;
+        l--;
+        int ans=0;
+        vi aa(26),bb;
+        bb=aa;
+        for(int i=0;i<26;i++)
+        {
+            aa[i]=ca[r][i]-ca[l][i];
+            bb[i]=cb[r][i]-cb[l][i];
+        }
+        for(int i=0;i<26;i++)
+        ans+=abs(aa[i]-bb[i]);
+        cout<<ans/2<<'\n';
+    }
 }
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int ans[N]={1,1};
-    for(int i=2;i<N;i++)
-    ans[i]=(((2*(i-1))%MAX*1LL*ans[i-2])%MAX+ans[i-1])%MAX;
     ll t=1;
     cin>>t;
     while(t--)
     {
-        // cout<<t<<"YO"<<'\n';
-        int n;
-        cin>>n;
-        int k;
-        cin>>k;
-        int x,y;
-        int ind=n;
-        while(k--)
-        {
-            cin>>x>>y;
-            if(x!=y)ind-=2;
-            else ind--;
-        }
-        cout<<ans[ind]<<'\n';
+        solve();
     }
     return 0;
-}   
+}

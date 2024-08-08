@@ -47,6 +47,17 @@ int lcml(int a,int b)
     return a;
 }
 
+ll binmul(ll a,ll b)
+{
+    ll ans=0;
+    while(b)
+    {
+        if(b&1) ans=(ans+a)%MAX;
+        a=(a+a)%MAX;
+        b>>=1;
+    }
+}
+
 vl pov(500001);
 
 void solve()
@@ -92,6 +103,7 @@ int main()
     cin>>t;
     while(t--)
     {
+        // cout<<5%0<<'\n';
         solve();
     }
     return 0;

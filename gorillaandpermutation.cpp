@@ -1,7 +1,3 @@
-//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
-//END
-//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
-//END
 #include <bits/stdc++.h>
 using namespace std;
  
@@ -14,10 +10,9 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
-typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define MAX 1000000007
-#define N 10010
+#define MAX 998244353
+#define N 10    010
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -52,31 +47,39 @@ int lcml(int a,int b)
     return a;
 }
 
+ll binmul(ll a,ll b)
+{
+    ll ans=0;
+    while(b)
+    {
+        if(b&1) ans=(ans+a)%MAX;
+        a=(a+a)%MAX;
+        b>>=1;
+    }
+}
+
 void solve()
 {
-    int n;
-    cin>>n;
-    vvi graph(n+5);
-    for(int i=2;i<=n;i++)
-    {
-        int x;
-        cin>>x;
-        x--;
-        graph[i-1].push_back(x);
-        graph[x].push_back(i-1);
-    }
-    
+    int n,m,k;
+    cin>>n>>m>>k;
+    vi a(n);
+    for(int i=n;i>0;i--)
+    a[n-i]=i;
+    reverse(a.begin()+n-m,a.end());
+    for(auto it:a)
+    cout<<it<<' ';
+    cout<<'\n';
 }
 
 int main()
 {
     ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(NULL);          
     ll t=1;
     cin>>t;
     while(t--)
     {
-        // cout<<t<<0<<'\n';
+        // cout<<5%0<<'\n';
         solve();
     }
     return 0;

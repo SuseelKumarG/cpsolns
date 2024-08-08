@@ -1,12 +1,7 @@
-//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
-//END
-//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
-//END
 #include <bits/stdc++.h>
 using namespace std;
  
 typedef long long ll;
-typedef unsigned long long ull;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -17,10 +12,8 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-typedef vector<vb> vvb;
-#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 20015
+#define N 10010
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -53,45 +46,17 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
-} 
-
-ll modexp(ll base,ll exp) 
-{
-    ll ans=1;
-    while(exp>0)
-    {
-        if(exp%2==1) ans=(ans*base)%MAX;
-        base=(base*base)%MAX;
-        exp/=2;
-    }
-    return ans;
-}
-
-void ans(int &u,int x,int n)
-{
-    if(x==n-1)
-    u=-1;
-    else
-    {
-        u=x;
-    }
 }
 
 void solve()
 {
     int n;
     cin>>n;
-    map<int,int>val;
-    ll ans=0;
-    for(int i=0;i<n;i++)
-    {
-        int x;
-        cin>>x;
-        val[x]++;
-    }
-    for(auto it:val)
-    ans+=it.second/3;
-    cout<<ans<<'\n';
+    if(n%4)
+    n=n/4+1;
+    else
+    n/=4;
+    cout<<n<<'\n';
 }
 
 int main()
@@ -102,8 +67,7 @@ int main()
     cin>>t;
     while(t--)
     {
-        // cout<<t<<"YO"<<'\n';
         solve();
     }
     return 0;
-}   
+}

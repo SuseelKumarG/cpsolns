@@ -1,7 +1,3 @@
-//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
-//END
-//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
-//END
 #include <bits/stdc++.h>
 using namespace std;
  
@@ -52,20 +48,52 @@ int lcml(int a,int b)
     return a;
 }
 
+int x=0,y=0;
+
+void chk(vi &a,int i,int j,int k,int l)
+{
+    x=0,y=0;
+    if(a[i]>a[j])
+    x++;
+    if(a[i]<a[j])
+    y++;
+    if(a[k]>a[l])
+    x++;
+    if(a[k]<a[l])
+    y++;
+}
+
 void solve()
 {
-    int n;
-    cin>>n;
-    vvi graph(n+5);
-    for(int i=2;i<=n;i++)
+    vi a(4);
+    for(int i=0;i<4;i++)
+    cin>>a[i];
+    int ans=0;
+    chk(a,0,2,1,3);
+    if(x>y)
     {
-        int x;
-        cin>>x;
-        x--;
-        graph[i-1].push_back(x);
-        graph[x].push_back(i-1);
+        ans++;
+        // cout<<1<<' ';
     }
-    
+    chk(a,0,3,1,2);
+    if(x>y)
+    {
+        ans++;
+        // cout<<2<<' ';
+    }
+    chk(a,1,3,0,2);
+    if(x>y)
+    {
+        ans++;
+        // cout<<3<<' ';
+    }
+    chk(a,1,2,0,3);
+    if(x>y)
+    {
+        ans++;
+        // cout<<4<<' ';
+    }
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -76,7 +104,6 @@ int main()
     cin>>t;
     while(t--)
     {
-        // cout<<t<<0<<'\n';
         solve();
     }
     return 0;

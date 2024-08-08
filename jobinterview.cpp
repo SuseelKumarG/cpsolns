@@ -1,7 +1,3 @@
-//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
-//END
-//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
-//END
 #include <bits/stdc++.h>
 using namespace std;
  
@@ -14,6 +10,7 @@ typedef vector<vi> vvi;
 typedef vector<pii> vii;
 typedef vector<ll> vl;
 typedef vector<vl> vvl; 
+typedef vector<pll> vll; 
 typedef vector<bool> vb;
 #define MAX 1000000007
 #define N 10010
@@ -53,68 +50,96 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    int x=n+m+1;
-    vii pt(x);
-    for(int i=0;i<x;i++) cin>>pt[i].first;
-    for(int i=0;i<x;i++) cin>>pt[i].second;
-    int walter_white=-1;
-    vb p(x);
-    ll sum=0;
-    for(int i=0;i<x-1;i++)
+    int p,t;
+    cin>>p>>t;
+    int n=p+t+1;
+    vi pc(p+t+1),tc;
+    tc=pc;
+    int ind=n-1;
+    vb pr(n,0);
+    ll ans=0;
+    for(int i=0;i<n;i++)
+    cin>>pc[i];
+    for(int i=0;i<n;i++)
+    cin>>tc[i];
+    for(int i=0;i<n-1;i++)
     {
-        if(pt[i].first>pt[i].second)
+        if(pc[i]>tc[i])
         {
-            if(n)
+            if(p)
             {
-                n--;
-                p[i]=1;
-                sum+=pt[i].first;
+                p--;
+                pr[i]=1;
+                ans+=pc[i];
             }
             else
             {
-                if(walter_white==-1) walter_white=i;
-                sum+=pt[i].second;
+                if(ind==n-1)
+                ind=i;
+                t--;
+                ans+=tc[i];
             }
         }
         else
         {
-            if(m)
+            if(t)
             {
-                m--;
-                sum+=pt[i].second;
+                t--;
+                ans+=tc[i];
             }
             else
             {
-                p[i]=1;
-                sum+=pt[i].first;
-                if(walter_white==-1) walter_white=i;
+                if(ind==n-1)
+                ind=i;
+                p--;
+                pr[i]=1;
+                ans+=pc[i];
             }
         }
     }
-    // cout<<sum<<'\n';
-    for(auto it:p)
-    cout<<it<<' ';
-    cout<<'\n';
-    for(int i=0;i<x;i++)
+    // cout<<ind<<' '<<pr[ind]<<'\n';
+    for(int i=0;i<n-1;i++)
     {
-        if(i<walter_white&&p[walter_white]!=p[i])
+        ll x=ans;
+        if(pr[i])
+        x-=pc[i];
+        else
+        x-=tc[i];
+        if(i<ind && ind<n-1)
         {
-            if(p[i])
-            cout<<sum+pt[walter_white].first-pt[walter_white].second-pt[i].first+pt[x-1].second;
+            if(pr[ind]==pr[i])
+            {
+                if(pr[i])
+                x+=pc[n-1];
+                else
+                x+=tc[n-1];
+            }
             else
-            cout<<sum+pt[walter_white].second-pt[walter_white].first-pt[i].second+pt[x-1].first;
-            // cout<<
+            {
+                if(pr[ind])
+                {
+                    x-=pc[ind];
+                    x+=tc[ind];
+                    x+=pc[n-1];
+                }
+                else
+                {
+                    x-=tc[ind];
+                    x+=pc[ind];
+                    x+=tc[n-1];
+                }
+            }
         }
         else
         {
-            if(p[i])
-            cout<<sum-pt[i].first+pt[x-1].first;
+            if(pr[i])
+            x+=pc[n-1];
             else
-            cout<<sum-pt[i].second+pt[x-1].second;
+            x+=tc[n-1];
         }
+        cout<<x<<' ';
     }
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -125,7 +150,6 @@ int main()
     cin>>t;
     while(t--)
     {
-        // cout<<t<<"YO\n";
         solve();
     }
     return 0;
