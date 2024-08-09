@@ -56,12 +56,12 @@ void solve()
     cin>>a>>b;
     vvi ca(n+1,vi(26)),cb;
     cb=ca;
-    for(int i=0;i<n;i++)
+    for(int i=1;i<=n;i++)
     {
-        ca[i+1]=ca[i];
-        cb[i+1]=cb[i];
-        ca[i+1][a[i]-'a']++;
-        cb[i+1][b[i]-'a']++;
+        ca[i]=ca[i-1];
+        cb[i]=cb[i-1];
+        ca[i][a[i]-'a']++;
+        cb[i][b[i]-'a']++;
     }
     while(q--)
     {
