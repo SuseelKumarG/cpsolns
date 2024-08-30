@@ -52,7 +52,12 @@ void solve()
 {
     int n;
     cin>>n;
-    
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    for(int i=1;i<n;i++)
+    cout<<a[i]<<' ';
+    cout<<a[0]<<'\n';
 }
 
 int main()

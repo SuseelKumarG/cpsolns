@@ -52,7 +52,28 @@ void solve()
 {
     int n;
     cin>>n;
-    
+    bool poss=0;
+    vi a(n);
+    if(n&1)
+    poss=1;
+    int i=0;
+    int x=1;
+    while(x<n)
+    {
+        a[i]=x;
+        a[n-1-i]=x+1;
+        x+=2;
+        i++;
+    }
+    a[(n-1)/2]=n;
+    if(poss)
+    {
+        for(auto it:a)
+        cout<<it<<' ';
+        cout<<'\n';
+    }
+    else
+    cout<<-1<<'\n';
 }
 
 int main()

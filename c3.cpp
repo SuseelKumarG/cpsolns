@@ -50,36 +50,37 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,q;
-    cin>>n>>q;
-    string a,b;
-    cin>>a>>b;
-    vvi ca(n+1,vi(26)),cb;
-    cb=ca;
-    for(int i=1;i<=n;i++)
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    vii cnt;
+    map<int,int>hsh;
+    for(auto it:s)
+    hsh[it-'a']++;
+    for(auto &it:hsh)
+    cnt.push_back({it.first,it.second});
+    int l=0;
+    int r=cnt.size()-1;
+    while(l<r)
     {
-        ca[i]=ca[i-1];
-        cb[i]=cb[i-1];
-        ca[i][a[i]-'a']++;
-        cb[i][b[i]-'a']++;
+        cout<<char(cnt[l].first+'a');
+        cout<<char(cnt[r].first+'a');
+        cnt[l].second--;
+        cnt[r].second--;
+        if(!cnt[l].second)
+        l++;
+        if(!cnt[r].second)
+        r--;
     }
-    while(q--)
+    if(l==r)
     {
-        int l,r;
-        cin>>l>>r;
-        l--;
-        int ans=0;
-        vi aa(26),bb;
-        bb=aa;
-        for(int i=0;i<26;i++)
+        while(cnt[l].second--)
         {
-            aa[i]=ca[r][i]-ca[l][i];
-            bb[i]=cb[r][i]-cb[l][i];
+            cout<<char(cnt[l].first+'a');
         }
-        for(int i=0;i<26;i++)
-        ans+=abs(aa[i]-bb[i]);
-        cout<<ans/2<<'\n';
     }
+    cout<<'\n';
 }
 
 int main()

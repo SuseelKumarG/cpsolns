@@ -52,7 +52,28 @@ void solve()
 {
     int n;
     cin>>n;
-    
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    vl pre(n+1);
+    for(int i=1;i<=n;i++)
+    pre[i]=a[i-1]+pre[i-1];
+    string s;
+    cin>>s;
+    int l=0,r=n-1;
+    ll ans=0;
+    while(r>l)
+    {
+        while(s[l]!='L'&&l<n)
+        l++;
+        while(s[r]!='R'&&r>-1)
+        r--;
+        if(l<r)
+        ans+=pre[r+1]-pre[l];
+        r--;
+        l++;
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

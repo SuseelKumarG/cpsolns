@@ -50,25 +50,13 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    int inc=n/k;
-    vector<string>s(n);
-    for(int i=0;i<n;i++)
-    cin>>s[i];
-    vector<string>ans;
-    string t;
-    for(int i=0;i<n;i+=k)
-    {
-        t.clear();
-        for(int j=0;j<n;j+=k)
-        t.push_back(s[i][j]);
-        ans.push_back(t);
-    }
-    for(auto it:ans)
-    {
-        cout<<it<<'\n';
-    }
+    int n;
+    cin>>n;
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    sort(a.begin(),a.end());
+    cout<<a[n/2]<<'\n';
 }
 
 int main()

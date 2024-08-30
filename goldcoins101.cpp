@@ -50,9 +50,13 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    
+    // int n;/
+    int a,b,x,y;
+    cin>>a>>b>>x>>y;
+    if(x>y)
+    cout<<a<<'\n';
+    else
+    cout<<b<<'\n';
 }
 
 int main()
@@ -60,7 +64,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
+    // cin>>t;
     while(t--)
     {
         solve();

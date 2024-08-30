@@ -52,11 +52,12 @@ void solve()
 {
     int n;
     cin>>n;
-    if(n%4)
-    n=n/4+1;
+    string s;
+    cin>>s;
+    if(s[n-1]!=s[0])
+    cout<<"YES\n";
     else
-    n/=4;
-    cout<<n<<'\n';
+    cout<<"NO\n";
 }
 
 int main()

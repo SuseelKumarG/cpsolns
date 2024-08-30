@@ -52,7 +52,24 @@ void solve()
 {
     int n;
     cin>>n;
-    
+    string s;
+    cin>>s;
+    ll ans=0;
+    stack<int>l;
+    for(int i=0;i<n;i++)
+    {
+        int c=s[i];
+        if(s[i]=='_')
+        c=l.empty()?'(':')';
+        if(c=='(')
+        l.push(i);
+        else
+        {
+            ans+=i-l.top();
+            l.pop();
+        }
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

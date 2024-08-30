@@ -50,9 +50,14 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    
+    vi a(3);
+    for(int i=0;i<3;i++)
+    cin>>a[i];
+    sort(a.begin(),a.end());
+    bool poss=1;
+    if(a[2]>a[0]+a[1]+1)  
+    poss=0;
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()

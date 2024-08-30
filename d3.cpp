@@ -50,15 +50,33 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,x;
-    cin>>n>>x;
-    ll ans=0;
-    for(int a=1;a<=x-2;a++)
+    int n,m;
+    cin>>n>>m;
+    ll mex=0;
+    for(int i=0;i<n;i++)
     {
-        int mxb=min(x-a-1,(n-1)/(2*a));
-        for(int b=1;b<=mxb;b++)
-        ans+=min(x-a-b,(n-a*b)/(a+b));
+        int t;
+        cin>>t;
+        set<int>mexx;
+        for(int i=0;i<t;i++)
+        {
+            int x;
+            cin>>x;
+            mexx.insert(x);
+        }
+        int x=0;
+        for(ll j=0;j<=*(mexx.rbegin())+10&&x<2;j++)
+        {
+            if(mexx.find(j)==mexx.end())
+            {
+                mex=max(mex,j);
+                x++;
+            }
+        }
     }
+    ll ans=min(m+1LL,mex)*1LL*mex;
+    if(m>=mex)
+    ans+=(((m+1)*1LL*m)/2)-(((mex-1)*1LL*mex)/2);
     cout<<ans<<'\n';
 }
 

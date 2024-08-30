@@ -52,7 +52,38 @@ void solve()
 {
     int n;
     cin>>n;
-    
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    int m;
+    cin>>m;
+    string s;
+    while(m--)
+    {
+        cin>>s;
+        if(s.length()!=n)
+        {
+            cout<<"NO\n";
+            continue;
+        }
+        map<int,char>chk;
+        vi hsh(26,MAX);
+        bool poss=1;
+        for(int i=0;i<n;i++)
+        {
+            if(chk.find(a[i])==chk.end()&&hsh[s[i]-'a']==MAX)
+            {
+                chk[a[i]]=s[i];
+                hsh[s[i]-'a']=a[i];
+            }
+            else
+            {
+                if(chk[a[i]]!=s[i]||hsh[s[i]-'a']!=a[i])
+                poss=0;
+            }
+        }
+        cout<<(poss?"YES":"NO")<<'\n';
+    }
 }
 
 int main()

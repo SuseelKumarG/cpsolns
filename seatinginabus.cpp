@@ -48,11 +48,32 @@ int lcml(int a,int b)
     return a;
 }
 
+bool chk(int n,vb a)
+{
+    if(n>0&&n<=a.size())
+    if(a[n-1])
+    return 1;
+    return 0;
+}
+
 void solve()
 {
     int n;
     cin>>n;
-    
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    vb seat(n);
+    seat[a[0]-1]=1;
+    bool poss=1;
+    for(int i=1;i<n;i++)
+    {
+        if(chk(a[i]-1,seat)||chk(a[i]+1,seat))
+        seat[a[i]-1]=1;
+        else
+        poss=0;
+    }
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()

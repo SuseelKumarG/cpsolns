@@ -50,9 +50,32 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    
+    ll n,m;
+    cin>>n>>m;
+    vii a(n);
+    for(int i=0;i<n;i++)
+    cin>>a[i].first;
+    for(int i=0;i<n;i++)
+    cin>>a[i].second;
+    sort(a.begin(),a.end());
+    ll ans=0;
+    for(int i=0;i<n;i++)
+    {
+        ll x=min(a[i].second+0LL,m/a[i].first);
+        ans=max(ans,x*a[i].first);
+    }
+    // cout<<ans<<'\n';
+    for(int i=0;i<n-1;i++)
+    {
+        int p=a[i].first,q=a[i+1].first;
+        if(q-p>1)
+        continue;
+        int r=a[i].second,s=a[i+1].second;
+        ll x=min((m+r)/q,min(r+0LL+s,m/p));
+        ll y=x<s? q*1LL*x:q*1LL*s+p*1LL*(x-s);
+        ans=max(ans,min(m,y));
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

@@ -50,9 +50,14 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    
+    int n,m;
+    cin>>n>>m;
+    if(n<m+1)
+    {
+        cout<<-1<<'\n';
+        return;
+    }
+    cout<<2*m+1<<'\n';
 }
 
 int main()

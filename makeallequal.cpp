@@ -52,7 +52,16 @@ void solve()
 {
     int n;
     cin>>n;
-    
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    map<int,int>cnt;
+    for(auto it:a)
+    cnt[it]++;
+    int maxm=0;
+    for(auto it:cnt)
+    maxm=max(maxm,it.second);
+    cout<<n-maxm<<'\n';
 }
 
 int main()

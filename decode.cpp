@@ -2,6 +2,8 @@
 using namespace std;
  
 typedef long long ll;
+typedef unsigned long long ull;
+typedef const long long cll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef pair<string, string> pss;
@@ -50,9 +52,33 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    
+    string s;
+    cin>>s;
+    int n=s.size();
+    vi a;
+    for(auto it:s)
+    {
+        if(it=='0')
+        a.push_back(-1);
+        else
+        a.push_back(1);
+    }
+    vi pre={0};
+    int sum=0;
+    for(auto it:a)
+    {
+        sum+=it;
+        pre.push_back(sum);
+    }
+    map<ll,ll>ind;
+    ll ans=0;
+    for(int i=0;i<=n;i++)
+    {
+        ans+=((n-i+1LL)*(ind[pre[i]]*1LL))%MAX;
+        ans%=MAX;
+        ind[pre[i]]+=i+1;
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

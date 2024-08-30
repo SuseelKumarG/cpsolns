@@ -50,9 +50,27 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    
+    int n,m,k;
+    cin>>n>>m>>k;
+    int w;
+    cin>>w;
+    vi a(w);
+    for(auto &it:a)
+    cin>>it;
+    sort(a.begin(),a.end());
+    reverse(a.begin(),a.end());
+    vl mulplr;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        mulplr.push_back((min(min(i+1,min(n-k+1,k)),min(n-i,k))*1LL*min(min(j+1,min(m-k+1,k)),min(m-j,k))));
+    }
+    sort(mulplr.begin(),mulplr.end());
+    reverse(mulplr.begin(),mulplr.end());
+    ll ans=0;
+    for(int i=0;i<w;i++)
+    ans+=mulplr[i]*a[i];
+    cout<<ans<<'\n';
 }
 
 int main()

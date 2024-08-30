@@ -48,11 +48,36 @@ int lcml(int a,int b)
     return a;
 }
 
+string str(int n)
+{
+    string s;
+    while(n)
+    {
+        s.push_back(n%10+'0');
+        n/=10;
+    }
+    reverse(s.begin(),s.end());
+    return s;
+}
+
 void solve()
 {
     int n;
     cin>>n;
-    
+    string s=str(n);
+    bool poss=0;
+    if(s.length()>2)
+    if(s[0]=='1' && s[1]=='0' && s[2]>'0')
+    {
+        if(s.length()==3)
+        {
+            if(s[2]>'1')
+            poss=1;
+        }
+        else
+        poss=1;
+    }
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
