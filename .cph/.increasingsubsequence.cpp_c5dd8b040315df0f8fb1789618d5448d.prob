@@ -1,0 +1,1 @@
+{"name":"Local: increasingsubsequence","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\increasingsubsequence.cpp","tests":[{"id":1727255012346,"input":"10\n3 8 3 8 1 5 10 5 8 10","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\increasingsubsequence.cpp","group":"local","local":true}

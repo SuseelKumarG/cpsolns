@@ -50,37 +50,29 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vii cnt;
-    map<int,int>hsh;
-    for(auto it:s)
-    hsh[it-'a']++;
-    for(auto &it:hsh)
-    cnt.push_back({it.first,it.second});
-    int l=0;
-    int r=cnt.size()-1;
-    while(l<r)
+    ll x,y,k;
+    cin>>x>>y>>k;
+    ll turn=0;
+    ll c,g;
+    turn=min(x,y)/k*2;
+    if(min(x,y)%k)
+    turn+=2;
+    if(x<y)
     {
-        cout<<char(cnt[l].first+'a');
-        cout<<char(cnt[r].first+'a');
-        cnt[l].second--;
-        cnt[r].second--;
-        if(!cnt[l].second)
-        l++;
-        if(!cnt[r].second)
-        r--;
+        c=turn/2*k;
+        g=y;
     }
-    if(l==r)
+    if(y<x)
     {
-        while(cnt[l].second--)
-        {
-            cout<<char(cnt[l].first+'a');
-        }
+        turn--;
+        c=turn/2*k;
+        g=x;
     }
-    cout<<'\n';
+    if(g<c)
+    {
+        turn+=g/c*2;
+    }
+    cout<<turn<<'\n';
 }
 
 int main()

@@ -1,0 +1,1 @@
+{"name":"Local: decreasingstring","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\decreasingstring.cpp","tests":[{"id":1725120550576,"input":"3\ncab\n6\nabcd\n9\nx\n1\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\decreasingstring.cpp","group":"local","local":true}

@@ -52,11 +52,19 @@ void solve()
 {
     int n;
     cin>>n;
-    vi a(n);
+    vector<string>a(n);
     for(auto &it:a)
     cin>>it;
-    sort(a.begin(),a.end());
-    cout<<a[n/2]<<'\n';
+    for(int i=n-1;i>=0;i--)
+    {
+        for(int j=0;j<a[i].size();j++)
+        if(a[i][j]=='#')
+        {
+            cout<<j+1<<' ';
+            break;
+        }
+    }
+    cout<<'\n';
 }
 
 int main()

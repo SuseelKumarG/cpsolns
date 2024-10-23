@@ -1,0 +1,1 @@
+{"name":"Local: evensubarray","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\evensubarray.cpp","tests":[{"id":1728669345688,"input":"4\n3\n3 1 2\n5\n4 2 1 5 3\n4\n4 4 4 4\n7\n5 7 3 7 1 7 3\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\evensubarray.cpp","group":"local","local":true}

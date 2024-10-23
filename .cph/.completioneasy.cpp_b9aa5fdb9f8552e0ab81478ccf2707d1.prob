@@ -1,0 +1,1 @@
+{"name":"Local: completioneasy","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\completioneasy.cpp","tests":[{"id":1726722436629,"input":"3\n3\n4 0 1 0 2 0\n4\n3 0 0 0 5 0 8 0\n2\n0 0 0 0","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\completioneasy.cpp","group":"local","local":true}

@@ -50,33 +50,43 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    ll mex=0;
+    int n;
+    cin>>n;
+    map<int,int>cnt;
+    int x,y;
+    set<pii>u,l;
     for(int i=0;i<n;i++)
     {
-        int t;
-        cin>>t;
-        set<int>mexx;
-        for(int i=0;i<t;i++)
+        cin>>x>>y;
+        cnt[x]++;
+        if(y)
+        u.insert({x,y});
+        else
+        l.insert({x,y});
+    }
+    int dou=0;
+    for(auto it:cnt)
+    {
+        if(it.second==2)
+        dou++;
+    }
+    ll ans=dou*1LL*(n-2);
+    for(auto it:u)
+    {
+        if(u.find({it.first+2,1})!=u.end())
         {
-            int x;
-            cin>>x;
-            mexx.insert(x);
-        }
-        int x=0;
-        for(ll j=0;j<=*(mexx.rbegin())+10&&x<2;j++)
-        {
-            if(mexx.find(j)==mexx.end())
-            {
-                mex=max(mex,j);
-                x++;
-            }
+            if(l.find({it.first+1,0})!=l.end())
+            ans++;
         }
     }
-    ll ans=min(m+1LL,mex)*1LL*mex;
-    if(m>=mex)
-    ans+=(((m+1)*1LL*m)/2)-(((mex-1)*1LL*mex)/2);
+    for(auto it:l)
+    {
+        if(l.find({it.first+2,0})!=l.end())
+        {
+            if(u.find({it.first+1,1})!=u.end())
+            ans++;
+        }
+    }
     cout<<ans<<'\n';
 }
 

@@ -50,14 +50,11 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    if(s[n-1]!=s[0])
-    cout<<"YES\n";
-    else
-    cout<<"NO\n";
+    // int n;
+    // cin>>n;
+    int a,b;
+    cin>>a>>b;
+    cout<<b-a<<'\n';
 }
 
 int main()

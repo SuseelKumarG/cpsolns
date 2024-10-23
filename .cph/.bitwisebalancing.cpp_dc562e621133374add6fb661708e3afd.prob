@@ -1,0 +1,1 @@
+{"name":"Local: bitwisebalancing","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\bitwisebalancing.cpp","tests":[{"id":1728267810403,"input":"3\n2 2 2\n4 2 6\n10 2 14\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\bitwisebalancing.cpp","group":"local","local":true}
