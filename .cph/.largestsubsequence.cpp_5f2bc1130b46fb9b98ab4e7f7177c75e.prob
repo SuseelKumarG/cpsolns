@@ -1,0 +1,1 @@
+{"name":"Local: largestsubsequence","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\largestsubsequence.cpp","tests":[{"id":1730299184098,"input":"4\n4\nabba\n2\nab\n1\nb\n5\naaabb","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\largestsubsequence.cpp","group":"local","local":true}

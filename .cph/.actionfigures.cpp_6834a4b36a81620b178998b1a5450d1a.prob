@@ -1,0 +1,1 @@
+{"name":"Local: actionfigures","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\actionfigures.cpp","tests":[{"id":1730132540744,"input":"4\n1\n1\n6\n101101\n7\n1110001\n5\n11111\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\actionfigures.cpp","group":"local","local":true}

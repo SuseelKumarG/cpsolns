@@ -1,0 +1,1 @@
+{"name":"Local: multiply2tominimize","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\multiply2tominimize.cpp","tests":[{"id":1730352978326,"input":"3\n6\n4 2 2 1 3 1\n3\n7 9 8\n5\n3 6 7 3 7","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\multiply2tominimize.cpp","group":"local","local":true}
