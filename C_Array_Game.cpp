@@ -56,32 +56,54 @@ void solve()
 {
     int n,k;
     cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    multiset<ll>s;
+    vl a(n);
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        cin>>a[i];
+        s.insert(a[i]);
     }
-    if(temp<k)
+    sort(a.begin(),a.end());
+    ll ans=LLONG_MAX;
+    if(k>2)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
+        cout<<0<<'\n';
         return;
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    for(int i=0;i<n-1;i++)
+    ans=min(ans,a[i+1]-a[i]);
+    for(int i=0;i<n;i++)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        for(int j=0;j<n;j++)
+        {
+            if(i==j)
+            continue;
+            ans=min(ans,abs(a[i]-a[j]));
+            if(k>1)
+            {
+                auto it=lower_bound(a.begin(),a.end(),abs(a[i]-a[j]));
+                if(it!=a.begin())
+                {
+                    auto xit=it;
+                    xit--;
+                    ans=min(ans,abs(*xit-abs(a[i]-a[j])));
+                }
+                if(it!=a.end())
+                {
+                    ans=min(ans,*it-abs(a[i]-a[j]));
+                }
+                auto tit=it;
+                tit++;
+                if(tit!=a.end())
+                {
+                    ans=min(ans,*tit-abs(a[i]-a[j]));
+                }
+            }
+        }
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    for(auto it:a)
+    ans=min(ans,it);
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -89,6 +111,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

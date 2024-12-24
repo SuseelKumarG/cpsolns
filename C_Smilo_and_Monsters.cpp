@@ -54,34 +54,45 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
+    int n;
+    cin>>n;
+    vl a(n);
     for(auto &it:a)
     cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    sort(a.begin(),a.end());
+    int j=n-1;
+    ll curr=0;
+    ll ans=0;
+    for(int i=0;i<j;)
     {
-        temp+=a[i]/b[i];
+        if(curr+a[i]>a[j])
+        {
+            ans+=a[j]-curr+1;
+            a[i]=curr+a[i]-a[j];
+            curr=0;
+            j--;
+        }
+        else
+        {
+            curr+=a[i];
+            ans+=a[i];
+            i++;
+        }
     }
-    if(temp<k)
+    if(curr>a[j])
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        curr-=a[j];
+        ans-=(curr+1)/2;
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    else
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        if(a[j]!=1)
+        {a[j]-=curr;
+        ans+=(a[j]+1)/2+1;}
+        else
+        ans++;
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -89,6 +100,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

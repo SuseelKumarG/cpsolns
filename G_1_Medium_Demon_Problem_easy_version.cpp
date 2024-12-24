@@ -52,36 +52,80 @@ int lcml(int a,int b)
     return a;
 }
 
-void solve()
+set<int>cycle;
+int curr=0;
+
+void cycles(vvi &graph,int v,vb &vis)
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    if(vis[v])
+    return;
+    cycle.insert(v);
+    vis[v]=1;
+    for(auto it:graph[v])
     {
-        temp+=a[i]/b[i];
+        cycles(graph,it,vis);
     }
-    if(temp<k)
+}
+
+void dfs(vvi &graph,int v,vb &vis)
+{
+    if(vis[v])
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
+        // cout<<v<<' ';
+        vis[v]=0;
+        if(!cycle.count(v))
+        {vb vis1(graph.size());
+        cycles(graph,v,vis1);}
         return;
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    if(cycle.count(v))
+    return;
+    curr++;
+    vis[v]=1;
+    for(auto it:graph[v])
+    dfs(graph,it,vis);
+    vis[v]=0;
+}
+
+void solve()
+{
+    cycle.clear();
+    int n;
+    cin>>n;
+    vi a(n);
+    for(auto &it:a)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        cin>>it;
+        it--;
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    vvi graph(n);
+    vector<set<int>> graphin(n);
+    for(int i=0;i<n;i++)
+    {
+        graph[i].push_back(a[i]);
+        graphin[a[i]].insert(i);
+    }
+    priority_queue<pii,vii,greater<pii>> leaf;
+    for(int i=0;i<n;i++)
+    {
+        if(graphin[i].size()==0)
+        leaf.push({1,i});
+    }
+    int ans=0;
+    while(!leaf.empty())
+    {
+        int x=leaf.top().second;
+        int y=leaf.top().first;
+        ans=y;
+        leaf.pop();
+        for(auto it:graph[x])
+        {
+            graphin[it].erase(x);
+            if(graphin[it].size()==0)
+            leaf.push({y+1,it});
+        }
+    }
+    cout<<ans+2<<'\n';
 }
 
 int main()
@@ -89,6 +133,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

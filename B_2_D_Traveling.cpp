@@ -54,34 +54,27 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    ll n,k,a,b;
+    cin>>n>>k>>a>>b;
+    a--;
+    b--;
+    vll city(n);
+    for(auto &it:city)
+    cin>>it.first>>it.second;
+    ll go1=LLONG_MAX/2,go2=LLONG_MAX/2;
+    for(int i=0;i<k;i++)
     {
-        temp+=a[i]/b[i];
+        go1=min(go1,abs(city[a].first-city[i].first)+abs(city[a].second-city[i].second));
+        go2=min(go2,abs(city[b].first-city[i].first)+abs(city[b].second-city[i].second));
     }
-    if(temp<k)
-    {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
-    }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    // if(go1>abs(city[a].first-city[b].first)+abs(city[a].second-city[b].second))
+    // {
+    //     go1=min(go1,abs(city[a].first-city[b].first)+abs(city[a].second-city[b].second));
+    //     go2=0;
+    // }
+    // // cout<<go1<<' '<<go2<<'\n';
+    // cout<<go1+go2<<'\n';
+    cout<<min(go1+go2,abs(city[a].first-city[b].first)+abs(city[a].second-city[b].second))<<'\n';
 }
 
 int main()
@@ -89,6 +82,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

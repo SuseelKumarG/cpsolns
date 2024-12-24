@@ -51,44 +51,67 @@ int lcml(int a,int b)
     a=(a*b)/gcd(a,b);
     return a;
 }
-
+vector<bool> is_prime(1000000, true);   
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
+    int n;
+    cin>>n;
+    vi a(n);
     for(auto &it:a)
     cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    int ans=3;
+    int gc=0;
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        gc=gcd(gc,a[i]);
     }
-    if(temp<k)
+    if(gc==1)
+    ans=0;
+    gc=0;
+    for(int i=0;i<n;i++)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        if(i==n-1)
+        {
+            gc=gcd(gc,gcd(a[i],i+1));
+        }
+        else
+        {
+            gc=gcd(gc,a[i]);
+        }
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    if(gc==1&&ans==3)
+    ans=1;
+    gc=0;
+    for(int i=0;i<n;i++)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        if(i==n-2)
+        {
+            gc=gcd(gc,gcd(a[i],i+1));
+        }
+        else
+        {
+            gc=gcd(gc,a[i]);
+        }
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    if(gc==1&&ans==3)
+    ans=2;
+    cout<<ans<<'\n';
 }
 
 int main()
 {
+    int n=1000000;
+    is_prime[0] = is_prime[1] = false;
+    for (int i = 2; i < n; i++) {
+        if (is_prime[i] && (long long)i * i < n) {
+            for (int j = i * i; j < n; j += i)
+                is_prime[j] = false;
+        }
+    }
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

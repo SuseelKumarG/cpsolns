@@ -52,36 +52,49 @@ int lcml(int a,int b)
     return a;
 }
 
-void solve()
+int chk(vi &a,int x)
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    int n;
+    n=a.size();
+    set<int>done;
+    for(int i=1;i<=n;i++)
+    done.insert(i);
+    int ans=0;
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        if(done.count(x-a[i]))
+        {
+            done.erase(x-a[i]);
+            ans++;
+        }
     }
-    if(temp<k)
+    return ans;
+}
+
+void solve()
+{
+    int n;
+    cin>>n;
+    vi a(n);
+    for(auto&it:a)
+    cin>>it;
+    sort(a.begin(),a.end());
+    set<int>x(a.begin(),a.end());
+    a.clear();
+    for(auto it:x)
+    a.push_back(it);
+    int curr=0;
+    int i=0,j=0;
+    int ans=0;
+    while(j<a.size())
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        if(a[j]-a[i]<n)
+        j++;
+        else
+        i++;
+        ans=max(ans,j-i+1);
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<ans-1<<'\n';
 }
 
 int main()
@@ -89,6 +102,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

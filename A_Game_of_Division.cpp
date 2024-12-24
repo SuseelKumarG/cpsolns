@@ -56,32 +56,41 @@ void solve()
 {
     int n,k;
     cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    map<int,int>cnt;
+    vi a(n);
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        int x;
+        cin>>x;
+        a[i]=x;
+        cnt[x%k]++;
     }
-    if(temp<k)
+    bool poss=0;
+    int ind;
+    for(auto it:cnt)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        if(it.second==1)
+        {
+            poss=1;
+            ind=it.first;
+        }
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    if(poss)
+    for(int i=0;i<n;i++)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        if(a[i]%k==ind)
+        {
+            ind=i+1;
+            break;
+        }
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    if(poss)
+    {
+        cout<<"YES\n";
+        cout<<ind<<'\n';
+    }
+    else
+    cout<<"NO\n";
 }
 
 int main()
@@ -89,6 +98,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

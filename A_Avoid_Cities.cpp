@@ -52,36 +52,55 @@ int lcml(int a,int b)
     return a;
 }
 
+void bfs(vvi &graph,vi&deap,int v,vb &vis)
+{
+    queue<int>bf;
+    bf.push(v);
+    deap[v]=0;
+    while(!bf.empty())
+    {
+        int x=bf.front();
+        vis[v]=1;
+        bf.pop();
+        for(auto it:graph[x])
+        {
+            if(vis[it])
+            continue;
+            vis[it]=1;
+            deap[it]=deap[x]+1;
+            bf.push(it);
+        }
+    }
+}
+
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    int n,m;
+    cin>>n>>m;
+    int s,t;
+    cin>>s>>t;
+    set<int>curse;
+    vvi graph(n);
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        int x;
+        cin>>x;
+        if(x)
+        curse.insert(i);
     }
-    if(temp<k)
+    for(int i=0;i<m;i++)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        int x,y;
+        cin>>x>>y;
+        if(curse.count(x)||curse.count(y))
+        continue;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    vi bf(n,-1);
+    vb vis(n);
+    bfs(graph,bf,s,vis);
+    cout<<bf[t]<<'\n';
 }
 
 int main()

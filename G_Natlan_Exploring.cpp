@@ -16,7 +16,7 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define MAX 1000000007
+#define MAX 998244353
 #define N 10010
 
 long long gcdl(long long a, long long b){
@@ -52,40 +52,47 @@ int lcml(int a,int b)
     return a;
 }
 
+vi least(1000010);
+
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
+    int n;
+    cin>>n;
+    vi a(n);
     for(auto &it:a)
     cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    map<int,vi>gg;
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        gg[least[i]].push_back(i);
     }
-    if(temp<k)
+    vector<set<int>>graph(n);
+    for(auto &it:gg)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        vi temp=it.second;
+        for(int j=0;j<n;j++)
+        {
+            for(int i=j+1;i<n;i++)
+            {
+                graph[j].insert(i);
+            }
+        }
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
 }
 
 int main()
 {
+    int n=1000000;
+    for (int i=2;i<=n;i++)
+    {
+        if(!least[i])
+        {
+            least[i]=i;
+            for (int j=i*i;j<=n;j+=i)
+            if(!least[j])
+            least[j]=i;
+        }
+    }
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;

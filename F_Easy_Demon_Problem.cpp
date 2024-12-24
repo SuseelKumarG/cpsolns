@@ -54,34 +54,60 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
+    ll n,m,q;
+    cin>>n>>m>>q;
+    vl a(n),b(m);
     for(auto &it:a)
     cin>>it;
     for(auto &it:b)
     cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    set<int> A(a.begin(),a.end());
+    set<int> B(b.begin(),b.end());
+    ll x=accumulate(a.begin(),a.end(),0LL);
+    ll y=accumulate(b.begin(),b.end(),0LL);
+    ll sum=x*y;
+    while(q--)
     {
-        temp+=a[i]/b[i];
-    }
-    if(temp<k)
-    {
+        bool poss=0;
+        ll curr;
+        cin>>curr;
+        curr=sum-curr;
         for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        {
+            if(x-a[i]==0)
+            {
+                if(y*a[i]==curr)
+                poss=1;
+                continue;
+            }
+            ll temp;
+            temp=curr-y*a[i];
+            temp/=(x-a[i]);
+            if(x*temp+y*a[i]-a[i]*temp==curr)
+            {
+                if(B.count(temp))
+                poss=1;
+            }
+        }
+        for(int i=0;i<m;i++)
+        {
+            if(y-b[i]==0)
+            {
+                if(x*b[i]==curr)
+                poss=1;
+                continue;
+            }
+            ll temp;
+            temp=curr-x*b[i];
+            temp/=(y-b[i]);
+            if(x*b[i]+y*temp-b[i]*temp==curr)
+            {
+                if(A.count(temp))
+                poss=1;
+            }
+        }
+        cout<<(poss?"YES":"NO")<<"\n";
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
 }
 
 int main()

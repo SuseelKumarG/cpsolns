@@ -54,34 +54,46 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    int n,m;
+    cin>>n>>m;
+    vi pre(n+1);
+    vi b(m+1);
+    for(int i=1;i<=n;i++)
     {
-        temp+=a[i]/b[i];
+        int x;
+        cin>>x;
+        pre[i]=pre[i-1]+x;
     }
-    if(temp<k)
+    for(int i=1;i<=m;i++)
+    cin>>b[i];
+    vvi dp(n+10,vi(m+10,MAX));
+    dp[0][0]=0;
+    for(int i=0;i<=n;i++)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        for(int j=0;j<=m;j++)
+        {
+            if(j!=0)
+            dp[i][j]=min(dp[i][j],dp[i][j-1]);
+            int ind=(--upper_bound(pre.begin(),pre.end(),pre[i]+b[j]))-pre.begin();
+            int l=i,h=n;
+            while(h>=l)
+            {
+                ind=(h-l)/2+l;
+                if(b[j]>=pre[ind]-pre[i])
+                {
+                    dp[ind][j]=min(dp[ind][j],dp[i][j]+m-j);  
+                    l=ind+1;
+                }
+                else
+                h=ind-1;
+            }
+            if(pre[h]-pre[i]<=b[j])
+            ind=h;
+            else
+            ind=l;
+        }
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<(dp[n][m]==MAX?-1:dp[n][m])<<'\n';
 }
 
 int main()
@@ -89,6 +101,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

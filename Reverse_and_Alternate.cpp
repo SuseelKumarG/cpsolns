@@ -52,36 +52,77 @@ int lcml(int a,int b)
     return a;
 }
 
+bool can(string &s)
+{
+    int n=s.length();
+    for(int i=0;i<n-1;i++)
+    {
+        if(s[i]==s[i+1])
+        return 0;
+    }
+    return 1;
+}
+
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    int f=-1,l=-1;
+    for(int i=0;i<n-1;i++)
     {
-        temp+=a[i]/b[i];
+        if(s[i]==s[i+1])
+        {
+            if(f==-1)
+            f=i+1;
+        }
     }
-    if(temp<k)
+    for(int i=n-1;i>0;i--)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        if(s[i]==s[i-1])
+        {
+            if(l==-1)
+            l=i-1;
+        }
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    string a,b,c;
+    bool poss=0;
+    if(f==-1)
+    poss=1;
+    if(f!=-1)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        for(int i=f-1;i>=0;i--)
+        {
+            a.push_back(s[i]);
+        }
+        for(int i=0;i<f;i++)
+        {
+            b.push_back(s[i]);
+            c.push_back(s[i]);
+        }
+        for(int i=l;i>=f;i--)
+        {
+            b.push_back(s[i]);
+        }
+        for(int i=f;i<=l;i++)
+        {
+            a.push_back(s[i]);
+            c.push_back(s[i]);
+        }
+        for(int i=l+1;i<n;i++)
+        {
+            a.push_back(s[i]);
+            b.push_back(s[i]);
+        }
+        for(int i=n-1;i>l;i--)
+        {
+            c.push_back(s[i]);
+        }
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    if(can(a)||can(b)||can(c))
+    poss=1;
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
@@ -89,6 +130,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

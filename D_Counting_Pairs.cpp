@@ -54,34 +54,49 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
+    ll n,d,u;
+    cin>>n>>d>>u;
+    vl a(n);
+    for(auto&it:a)
     cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    ll sum=accumulate(a.begin(),a.end(),0LL);
+    int l=0,r=0;
+    ll minm=max(0LL,sum-u),maxm=sum-d;
+    if(sum<d)
     {
-        temp+=a[i]/b[i];
-    }
-    if(temp<k)
-    {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
+        cout<<0<<'\n';
         return;
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    sort(a.begin(),a.end());
+    // map<int,int>hsh;
+    // for(auto it:a)
+    // hsh[it]++;
+    // set<int>temp(a.begin(),a.end());
+    // a.clear();
+    // for(auto it:temp)
+    // a.push_back(it);
+    // n=a.size();
+    // while(!a.empty())
+    // {
+    //     if(a.back()<maxm)
+    //     break;
+    //     a.pop_back();
+    // }
+    // n=a.size();
+    vi b(n+1);
+    for(int i=1;i<=n;i++)
+    b[i]=b[i-1]+a[i-1];
+    ll ans=0;
+    for(int i=0;i<n;i++)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        int lo=lower_bound(a.begin(),a.end(),minm-a[i])-a.begin();
+        lo=max(lo,i+1);
+        int hi=upper_bound(a.begin(),a.end(),maxm-a[i])-a.begin()-1;
+        // ll curr=b[hi+1]-b[lo];
+        if(hi>=lo)
+        ans+=hi-lo+1;
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -89,6 +104,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

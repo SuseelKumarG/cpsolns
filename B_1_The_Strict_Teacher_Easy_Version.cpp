@@ -54,34 +54,28 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    int n,m,q;
+    cin>>n>>m>>q;
+    int x,y,z;
+    cin>>x>>y>>z;
+    if(x>y)
+    swap(x,y);
+    if(x>z)
     {
-        temp+=a[i]/b[i];
+        cout<<x-1<<'\n';
     }
-    if(temp<k)
+    else if(y<z)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        cout<<n-y<<'\n';
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    else if(x==z||y==z)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        cout<<0<<'\n';
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    else
+    {
+        cout<<(y-x)/2<<'\n';
+    }
 }
 
 int main()
@@ -89,6 +83,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

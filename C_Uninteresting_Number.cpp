@@ -54,34 +54,68 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    string s;
+    cin>>s;
+    int two=0,three=0;
+    ll tot=0;
+    for(auto it:s)
     {
-        temp+=a[i]/b[i];
+        tot+=it-'0';
+        if(it=='2')
+        two++;
+        if(it=='3')
+        three++;
     }
-    if(temp<k)
+    int rem=tot%9;
+    int x=10000000;
+    int y=10000000;
+    for(int i=1;i<=100000;i++)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        if((6*i+rem)%9==0)
+        {
+            x=i;
+            break;
+        }
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    for(int i=1;i<=100000;i++)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        if((2*i+rem)%9==0)
+        {
+            y=i;
+            break;
+        }
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    // cout<<rem<<' ';
+    if(rem==0)
+    {
+        x=0;
+        y=0;
+    }
+    bool poss=0;
+    if(x>three)
+    {
+        if(two>=3*(x-three))
+        poss=1;
+    }
+    else
+    poss=1;
+    if(y>two)
+    {
+        if((three>=(y-two)/3)&&!((y-two)%3))
+        {
+            // cout<<1<<'\n';
+            poss=1;}
+        if((three>=(y-two+1)/3)&&!((y-two+1)%3)&&two>=1)
+            {// {cout<<2<<'\n';
+        poss=1;}
+        if((three>=(y-two+2)/3)&&!((y-two+2)%3)&&two>=2)
+            {// {cout<<3<<'\n';
+        poss=1;}
+    }
+    else
+    poss=1;
+    // cout<<x<<' '<<y<<'\n';
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()
@@ -89,6 +123,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

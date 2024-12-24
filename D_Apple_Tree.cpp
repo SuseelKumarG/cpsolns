@@ -52,36 +52,52 @@ int lcml(int a,int b)
     return a;
 }
 
+void dfs(int v,vvi &graph,vi &leaf,vb &vis)
+{
+    vis[v]=1;
+    bool lef=1;
+    for(auto it:graph[v])
+    {
+        if(!vis[it])
+        {dfs(it,graph,leaf,vis);
+        leaf[v]+=leaf[it];
+        lef=0;}
+    }
+    if(graph[v].size()>1)
+    lef=0;
+    leaf[v]+=lef;
+}
+
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    int n;
+    cin>>n;
+    vvi graph(n);
+    for(int i=0;i<n-1;i++)
     {
-        temp+=a[i]/b[i];
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
     }
-    if(temp<k)
+    int q;
+    cin>>q;
+    vi leaf(n);
+    vb vis(n);
+    dfs(0,graph,leaf,vis);
+    // for(auto it:leaf)
+    // cout<<it<<' ';
+    // cout<<'\n';
+    while(q--)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        cout<<leaf[x]*1LL*leaf[y]<<'\n';
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
 }
 
 int main()
@@ -89,6 +105,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

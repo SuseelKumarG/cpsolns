@@ -54,32 +54,44 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
+    ll n,k;
     cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    map<ll,ll>chk;
+    chk[0]=n;
+    int x=n-1;
+    ll curr=1;
+    vl ok;
+    k--;
+    while(curr<=k)
     {
-        temp+=a[i]/b[i];
+        ok.push_back(curr);
+        chk[curr]=x--;
+        curr*=2;
     }
-    if(temp<k)
+    if(x<0)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
+        cout<<-1<<'\n';
         return;
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    ok.push_back(curr);
+    set<int>cnt;
+    for(int i=1;i<=n;i++)
+    cnt.insert(i);
+    vi ans;
+    while(k)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        int x=(--upper_bound(ok.begin(),ok.end(),k))-ok.begin();
+        k-=ok[x];
+        ans.push_back(chk[ok[x]]);
+        cnt.erase(chk[ok[x]]);
     }
-    for(auto it:c)
+    while(!cnt.empty())
+    {
+        ans.push_back(*(--(cnt.end())));
+        cnt.erase(*(--(cnt.end())));
+    }
+    reverse(ans.begin(),ans.end());
+    for(auto it:ans)
     cout<<it<<' ';
     cout<<'\n';
 }
@@ -89,6 +101,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

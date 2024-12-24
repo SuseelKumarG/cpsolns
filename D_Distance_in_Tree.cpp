@@ -52,36 +52,49 @@ int lcml(int a,int b)
     return a;
 }
 
+ll ans=0;
+
+void dfs(vvi &graph,vb &vis,int v,int c,int k)
+{
+    if(vis[v])
+    return;
+    if(c>=k)
+    ans++;
+    vis[v]=1;
+    for(auto it:graph[v])
+    dfs(graph,vis,it,c+1,k);
+    // vis[v]=0;
+}
+
 void solve()
 {
     int n,k;
     cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    vvi graph(n);
+    for(int i=0;i<n-1;i++)
+    {
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
+    }
+    vi v;
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        if(graph[i].size()==1)
+        {
+            v.push_back(i);
+        }
     }
-    if(temp<k)
+    ans=0;
+    for(auto it:v)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        vb vis(n);
+        dfs(graph,vis,it,0,k);
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<ans/v.size()+1<<'\n';
 }
 
 int main()

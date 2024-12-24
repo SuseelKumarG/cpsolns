@@ -54,33 +54,58 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
+    int n,m;
+    cin>>n>>m;
+    vi a(n),b(m);
     for(auto &it:a)
     cin>>it;
     for(auto &it:b)
     cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    int x=a[0];
+    sort(a.begin(),a.end());
+    reverse(a.begin(),a.end());
+    while(!a.empty())
     {
-        temp+=a[i]/b[i];
+        if(a.back()>x)
+        break;
+        a.pop_back();
     }
-    if(temp<k)
+    a.push_back(x);
+    reverse(a.begin(),a.end());
+    sort(b.begin(),b.end());
+    x=0;
+    for(auto it:b)
+    if(it<=a[0])
+    x++;
+    n=a.size();
+    for(int k=1;k<=m;k++)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        int t=x;
+        int seg=m/k;
+        ll ans=0;
+        while(t>=k&&seg)
+        {
+            t-=k;
+            ans++;
+            seg--;
+        }
+        if(seg)
+        {
+            int curr=k-t;
+            curr=m-curr;
+            int dist=(int)(lower_bound(a.begin(),a.end(),b[curr])-a.begin());
+            ans+=n-dist+1;
+            seg--;
+            while(seg>0)
+            {
+                curr-=k;
+                dist=(int)(lower_bound(a.begin(),a.end(),b[curr])-a.begin());
+                ans+=n-dist+1;
+                seg--;
+            }
+        }
+        cout<<ans<<' ';
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
     cout<<'\n';
 }
 
@@ -89,6 +114,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

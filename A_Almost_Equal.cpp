@@ -54,34 +54,32 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    int n;
+    cin>>n;
+    if(n&1)
     {
-        temp+=a[i]/b[i];
-    }
-    if(temp<k)
-    {
+        cout<<"YES\n";
+        int x=1,y=2*n;
+        vi a(2*n);
         for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        {
+            if(i&1)
+            {
+                a[i]=y--;
+                a[n+i]=y--;
+            }
+            else
+            {
+                a[i]=x++;
+                a[n+i]=x++;
+            }
+        }
+        for(auto it:a)
+        cout<<it<<' ';
+        cout<<'\n';
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
-    {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
-    }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    else
+    cout<<"NO\n";
 }
 
 int main()

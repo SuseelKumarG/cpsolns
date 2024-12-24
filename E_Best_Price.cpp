@@ -52,36 +52,48 @@ int lcml(int a,int b)
     return a;
 }
 
-void solve()
+bool poss(vll &a,ll n,ll k,ll m)
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
-    for(auto &it:a)
-    cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
+    int cnt=0;
     for(int i=0;i<n;i++)
     {
-        temp+=a[i]/b[i];
+        if(a[i].second>=m&&a[i].first<m)
+        cnt++;
     }
-    if(temp<k)
+    return cnt<=k;
+}
+
+void solve()
+{
+    ll n,k;
+    cin>>n>>k;
+    vl a(n),b(n);
+    for(auto&it:a)
+    cin>>it;
+    for(auto&it:b)
+    cin>>it;
+    vl A=a;
+    vl B=b;
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+    ll ans=0;
+    for(int i=0;i<n;i++)
     {
-        for(int i=0;i<n;i++)
-        cout<<0<<' ';
-        return;
+        ll ind=lower_bound(b.begin(),b.end(),a[i])-b.begin();
+        if(i-ind>k)
+        continue;
+        ind=n-ind;
+        ans=max(ans,a[i]*ind);
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    for(int i=0;i<n;i++)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        ll ind=lower_bound(a.begin(),a.end(),b[i])-a.begin();
+        ll ind1=lower_bound(b.begin(),b.end(),b[i])-b.begin();
+        if(ind-ind1>k)
+        continue;
+        ans=max(ans,b[i]*(n-i));
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -89,6 +101,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

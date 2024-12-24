@@ -54,34 +54,88 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vi a(n),b(n);
+    int n;
+    cin>>n;
+    vi a(n);
     for(auto &it:a)
     cin>>it;
-    for(auto &it:b)
-    cin>>it;
-    int temp=0;
-    for(int i=0;i<n;i++)
+    set<int>temp(a.begin(),a.end());
+    if(temp.size()==1)
     {
-        temp+=a[i]/b[i];
-    }
-    if(temp<k)
-    {
+        cout<<1<<'\n';
         for(int i=0;i<n;i++)
-        cout<<0<<' ';
+        cout<<1<<' ';
+        cout<<'\n';
         return;
     }
-    vi c(n);
-    for(int i=n-1;i>=0;i--)
+    if(n%2==0)
     {
-        int curr=min(k,a[i]/b[i]);  
-        k-=curr;
-        c[i]=curr;
+        cout<<2<<'\n';
+        for(int i=0;i<n;i++)
+        {
+            if(i&1)
+            cout<<1<<' ';
+            else
+            cout<<2<<' ';
+        }
+        cout<<'\n';
+        return;
     }
-    for(auto it:c)
-    cout<<it<<' ';
-    cout<<'\n';
+    if(a[n-1]==a[0])
+    {
+        cout<<2<<'\n';
+        for(int i=0;i<n;i++)
+        {
+            if(i&1)
+            cout<<1<<' ';
+            else
+            cout<<2<<' ';
+        }
+        cout<<'\n';
+        return;
+    }
+    bool ok=0;
+    int ind=-1;
+    for(int i=0;i<n-1;i++)
+    {
+        if(a[i]==a[i+1])
+        {
+            ok=1;
+            ind=i+1;
+            break;
+        }
+    }
+    if(ok)
+    {
+        cout<<2<<'\n';
+        vi b(n);
+        for(int i=0;i<ind;i++)
+        {
+            b[i]=1;
+            if(i&1)
+            b[i]=2;
+        }
+        b[ind]=b[ind-1];
+        for(int i=ind+1;i<n;i++)
+        {
+            b[i]=2;
+            if(i&1)
+            b[i]=1;
+        }
+        for(auto it:b)
+        cout<<it<<' ';
+        cout<<'\n';
+        return;
+    }
+    cout<<3<<'\n';
+    for(int i=0;i<n-1;i++)
+    {
+        if(i&1)
+        cout<<1<<' ';
+        else
+        cout<<2<<' ';
+    }
+    cout<<3<<'\n';
 }
 
 int main()
@@ -89,6 +143,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();
