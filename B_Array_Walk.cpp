@@ -16,8 +16,6 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define F first;
-#define S second;
 #define MAX 1000000007
 #define N 10010
 
@@ -56,14 +54,29 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int x,y;
-    cin>>x>>y;
-    int n;
-    cin>>n;
-    vii pos(n);
-    vi rad(n);
-    for(int i=0;i<n;i++)
-    cin>>pos[i].first>>pos[i].second>>rad[i];
+    ll n,k,z;
+    cin>>n>>k>>z;
+    vl a(n);
+    for(auto &it:a)
+    cin>>it;
+    ll ans=0;
+    int x=0;
+    for(ll p=0;p<=min(z,k/2);p++)
+    {
+        ll curr=0;
+        ll maxm=0;
+        for(int i=0;i<min(n,k-2*p+1);i++)
+        {
+            if(i<n-1)
+            maxm=max(maxm,a[i]+a[i+1]);
+            curr+=a[i];
+        }
+        curr+=p*maxm;
+        if(ans<curr)
+        x=p;
+        ans=max(ans,curr);
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

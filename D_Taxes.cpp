@@ -16,8 +16,6 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define F first;
-#define S second;
 #define MAX 1000000007
 #define N 10010
 
@@ -54,16 +52,38 @@ int lcml(int a,int b)
     return a;
 }
 
+bool isit(ll n)
+{
+    if(n<2)
+    return 0;
+    for(int i=2;i*i<=n;i++)
+    {
+        if(!(n%i))
+        return 0;
+    }
+    return 1;
+}
+
 void solve()
 {
-    int x,y;
-    cin>>x>>y;
-    int n;
+    ll n;
     cin>>n;
-    vii pos(n);
-    vi rad(n);
-    for(int i=0;i<n;i++)
-    cin>>pos[i].first>>pos[i].second>>rad[i];
+    if(n&1)
+    {
+        if(isit(n))
+        cout<<1<<'\n';
+        else if(isit(n-2))
+        cout<<2<<'\n';
+        else
+        cout<<3<<'\n';
+    }
+    else
+    {
+        if(n==2)
+        cout<<1<<'\n';
+        else
+        cout<<2<<'\n';
+    }
 }
 
 int main()
@@ -71,7 +91,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

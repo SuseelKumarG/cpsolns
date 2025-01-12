@@ -16,8 +16,6 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define F first;
-#define S second;
 #define MAX 1000000007
 #define N 10010
 
@@ -54,16 +52,33 @@ int lcml(int a,int b)
     return a;
 }
 
+ll binexp(ll a,ll b)
+{
+    ll ans=1;
+    while (b)
+    {
+        if(b&1)
+        ans=(ans*a)%MAX;
+        b>>=1;
+        a=(a*a)%MAX;
+    }
+    return ans;
+}
+
 void solve()
 {
-    int x,y;
-    cin>>x>>y;
-    int n;
-    cin>>n;
-    vii pos(n);
-    vi rad(n);
-    for(int i=0;i<n;i++)
-    cin>>pos[i].first>>pos[i].second>>rad[i];
+    int n,d;
+    cin>>n>>d;
+    cout<<1<<' ';
+    if(n>2||d==3||d==9||d==6)
+    cout<<3<<' ';
+    if(d==5)
+    cout<<5<<' ';
+    if(d==7||n>3)
+    cout<<7<<' ';
+    if(n>2||d==9)
+    cout<<9<<' ';
+    cout<<'\n';
 }
 
 int main()
