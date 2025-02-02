@@ -1,9 +1,9 @@
+//in all subarrays of array a of length k have their or same then it is true for any sub array of length > k
+//END
+//to coprime numbers a and b can reproduce any number x greater than a*b-a-b as x= m*a+n*b
+//END
 #include <bits/stdc++.h>
 using namespace std;
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
  
 typedef long long ll;
 typedef pair<int, int> pii;
@@ -16,8 +16,9 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
+#define all(x) x.begin(),x.end()
 #define MAX 1000000007
-#define N 10010
+#define N 20015
 
 long long gcdl(long long a, long long b){
     while(a > 0 && b > 0){
@@ -50,21 +51,55 @@ int lcml(int a,int b)
 {
     a=(a*b)/gcd(a,b);
     return a;
+} 
+
+bool poss(int n,int k,string s)
+{
+    int cnt=0;
+    vi x(n+1);
+    for(int i=0;i<n;i++)
+    {
+        if(i+k>n)
+        break;
+        cnt+=x[i];
+        if(s[i]=='0'&&!(cnt&1))
+        {
+            cnt++;
+            x[i+k]=-1;
+        }
+        if(s[i]=='1'&&(cnt&1))
+        {
+            cnt++;
+            x[i+k]=-1;
+        }
+    }
+    for(int i=n-k+1;i<n;i++)
+    {
+        cnt+=x[i];
+        if(s[i]=='0'&&!(cnt&1))
+        return 0;
+        if(s[i]=='1'&&(cnt&1))
+        return 0;
+    }
+    return 1;
 }
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    int ans=0;
+    for(int i=n;i>0;i--)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(poss(n,i,s))
+        {
+            ans=i;
+            break;
+        }
     }
-
+    cout<<ans<<'\n';
 }
 
 int main()

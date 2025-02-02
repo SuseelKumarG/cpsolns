@@ -16,7 +16,7 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define MAX 1000000007
+#define MAX 998244353
 #define N 10010
 
 long long gcdl(long long a, long long b){
@@ -54,17 +54,28 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    vl a(n);
+    for(auto &it:a)
+    cin>>it;
+    reverse(a.begin(),a.end());
+    a.push_back(0);
+    reverse(a.begin(),a.end());
+    vl dp(n+1);
+    dp[0]=1;
+    for(int i=1;i<=n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(a[i-1]==a[i])
+        dp[i]=dp[i-1];
+        if(i>1)
+        {
+            if(a[i]==a[i-2]+1)
+            dp[i]+=dp[i-2];
+        }
+        dp[i]%=MAX;
     }
-
+    cout<<(dp[n]+dp[n-1])%MAX<<'\n';
 }
 
 int main()

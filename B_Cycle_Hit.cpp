@@ -54,17 +54,15 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    set<string>ans={"H", "2B", "3B","HR"};
+    set<string>curr;
+    for(int i=0;i<4;++i)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        string s;
+        cin>>s;
+        curr.insert(s);
     }
-
+    cout<<(ans==curr?"Yes":"No")<<'\n';
 }
 
 int main()
@@ -72,7 +70,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

@@ -54,17 +54,18 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    int cnt=0;
+    for(int i=1;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(abs(a[i]-a[0])&1)
+        cnt++;
     }
-
+    cout<<max(cnt,n-cnt)<<'\n';
 }
 
 int main()

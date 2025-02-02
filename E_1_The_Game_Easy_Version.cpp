@@ -52,19 +52,51 @@ int lcml(int a,int b)
     return a;
 }
 
+int dfs(vvi &graph,int v,vi &a,vb &vis,vi &fro,vi &rev)
+{
+    if(vis[v])
+    return -1;
+    vis[v]=1;
+    fro[v]=max(fro[v],a[v]);
+    for(auto it:graph[v])
+    {
+        if(vis[it])
+        continue;
+        fro[it]=fro[v];
+        rev[v]=max(rev[v],dfs(graph,it,a,vis,fro,rev));
+    }
+    rev[v]=max(rev[v],a[v]);
+    return rev[v];
+}
+
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    vi a(n);
+    for(auto&it:a)
+    cin>>it;
+    vvi graph(n);
+    for(int i=0;i<n-1;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
     }
-
+    vi hsh(n+1);
+    vi fro(n),rev(n);
+    vb vis(n);
+    dfs(graph,0,a,vis,fro,rev);
+    for(int i=0;i<n;i++)
+    cout<<fro[i]<<' ';
+    cout<<'\n';
+    for(int i=0;i<n;i++)
+    cout<<rev[i]<<' ';
+    cout<<'\n';
+    cout<<'\n';
 }
 
 int main()

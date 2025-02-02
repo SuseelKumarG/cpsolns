@@ -54,17 +54,50 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n,k;
+    cin>>n>>k;
+    string s;
+    cin>>s;
+    int cnt=1;
+    int l=-1,r=-1;
+    int curr=0;
+    bool came=0;
+    for(int i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(s[i]=='1')
+        {
+            came=1;
+        }
+        else if(came)
+        {
+            came=0;
+            if(k==cnt+1)
+            {
+                l=i-1;
+            }
+            if(k==cnt)
+            r=i-1;
+            cnt++;
+        }
     }
-
+    if(cnt==k&&s[n-1]=='1')
+    r=n-1;
+    int x=r;
+    cnt=0;
+    while(s[x]!='0'&&x>=0)
+    {
+        cnt++;
+        x--;
+    }
+    for(int i=0;i<=l;i++)
+    cout<<s[i];
+    for(int i=0;i<cnt;i++)
+    cout<<'1';
+    for(int i=l+cnt+1;i<=r;i++)
+    cout<<0;
+    for(int i=r+1;i<n;i++)
+    cout<<s[i];
+    cout<<'\n';
 }
 
 int main()
@@ -72,7 +105,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

@@ -52,19 +52,84 @@ int lcml(int a,int b)
     return a;
 }
 
+bool can(map<ll,ll>&a,ll val)
+{
+    if(val==1)
+    {
+        if(a[val]>0)
+        {
+            a[val]--;
+            return 1;
+        }
+        else
+        return 0;
+    }
+    if(a[val]>0)
+    {
+        a[val]--;
+        return 1;
+    }
+    else
+    {
+        if(val&1)
+        return (can(a,val/2)&&can(a,val/2+1));
+        else
+        return (can(a,val/2)&&can(a,val/2));
+    }
+}
+
 void solve()
 {
     int n,m;
     cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    map<ll,ll>a,b;
+    for(ll i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        ll x;
+        cin>>x;
+        a[x]++;
     }
-
+    for(ll i=0;i<m;i++)
+    {
+        ll x;
+        cin>>x;
+        b[x]++;
+    }
+    bool poss=1;
+    for(auto &it:a)
+    {
+        if(b[it.first])
+        {
+            if(a[it.first]>=b[it.first])
+            {
+                a[it.first]-=b[it.first];
+                b[it.first]=0;
+            }
+        }
+    }
+    for(auto &it:b)
+    { 
+        if(!poss)
+        break;
+        while(it.second--)
+        {
+            if(!can(a,it.first))
+            {
+                poss=0;
+                break;
+            }
+        }
+        if(!poss)
+        break;
+    }
+    ll op=0;
+    for(auto it:a)
+    op=max(it.second,op);
+    for(auto it:b)
+    op=max(it.second,op);
+    if(op)
+    poss=0;
+    cout<<(poss?"YES":"NO")<<'\n';
 }
 
 int main()

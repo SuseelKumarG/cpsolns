@@ -56,15 +56,31 @@ void solve()
 {
     int n,m;
     cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    map<int,int>cnt;
+    for(auto it:a)
+    cnt[it]++;
+    vector<pii> rem;
+    for(auto it:cnt)
+    rem.push_back({it.second,it.first});
+    sort(rem.begin(),rem.end());
+    for(auto it:rem)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(m<=0)
+        break;
+        int poper=min(it.first,m);
+        m-=poper;
+        cnt[it.second]-=poper;
     }
-
+    for(auto it:cnt)
+    {
+        int x=it.second;
+        while(x--)
+        cout<<it.first<<' ';
+    }
+    cout<<'\n';
 }
 
 int main()
@@ -72,7 +88,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

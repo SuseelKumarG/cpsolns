@@ -52,19 +52,40 @@ int lcml(int a,int b)
     return a;
 }
 
+bool poss(vector<string>&a,vector<string>&b,int m,int x,int y)
+{
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(b[i][j]!=a[i+x][j+y])
+            return 0;
+        }
+    }
+    return 1;
+}
+
 void solve()
 {
     int n,m;
     cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    vector<string>a(n);
+    vector<string>b(m);
+    for(auto &it:a)
+    cin>>it;
+    for(auto &it:b)
+    cin>>it;
+    for(int i=0;i<=n-m;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        for(int j=0;j<=n-m;j++)
+        {
+            if(poss(a,b,m,i,j))
+            {
+                cout<<i+1<<' '<<j+1<<'\n';
+                return;
+            }
+        }
     }
-
 }
 
 int main()
@@ -72,7 +93,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

@@ -54,17 +54,64 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n,w;
+    cin>>n>>w;
+    vl a(n,-1);
+    vvl fin(w);
+    map<pll,ll>pos;
+    for(int i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        pos[{x,y}]=i;
+        fin[x].push_back(y);
     }
-
+    for(auto &it:fin)
+    {
+        sort(it.begin(),it.end());
+        reverse(it.begin(),it.end());
+    }
+    ll prev=0;
+    while(1)
+    {
+        ll curr=0;
+        for(int i=0;i<w;i++)
+        {
+            if(fin[i].empty())
+            {
+                goto A;
+            }
+            ll x;
+            if(fin[i].back()>=prev)
+            x=0;
+            else
+            x=prev-fin[i].back();
+            curr=max(curr,fin[i].back()+x);
+        }
+        prev=curr;
+        for(int i=0;i<w;i++)
+        {
+            a[pos[{i,fin[i].back()}]]=curr+1;
+            fin[i].pop_back();
+        }
+    }
+    A:
+    int q;
+    cin>>q;
+    while(q--)
+    {
+        int t,i;
+        cin>>t>>i;
+        i--;
+        if(a[i]==-1)
+        cout<<"Yes\n";
+        else if(a[i]>t)
+        cout<<"Yes\n";
+        else
+        cout<<"No\n";
+    }
 }
 
 int main()
@@ -72,7 +119,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

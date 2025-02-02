@@ -52,19 +52,74 @@ int lcml(int a,int b)
     return a;
 }
 
+void dfs(vvi &graph,int v,vb &vis)
+{
+    if(vis[v])
+    return;
+    vis[v]=1;
+    for(auto it:graph[v])
+    dfs(graph,it,vis);
+}
+
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    vvi graph(n);
+    for(int i=0;i<n-1;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
     }
-
+    if(1)
+    {
+        int op=0;
+        for(int i=0;i<n;i++)
+        if(graph[i].size()==2)
+        op++;
+        if(op==n-2&&n>4)
+        {
+            cout<<3<<'\n';
+            return;
+        }
+    }
+    map<int,int>temp;
+    for(int i=0;i<n;i++)
+    {
+        temp[i]=graph[i].size();
+    }
+    pii big={0,0};
+    for(auto it:temp)
+    {
+        big=max(big,{it.second,it.first});
+    }
+    vb vis(n);
+    vis[big.second]=1;
+    for(auto it:graph[big.second])
+    {
+        temp[it]--;
+    }
+    temp.erase(big.second);
+    big={0,0};
+    for(auto it:temp)
+    {
+        big=max(big,{it.second,it.first});
+    }
+    vis[big.second]=1;
+    int cnt=0;
+    for(int i=0;i<n;i++)
+    {
+        if(!vis[i])
+        {
+            dfs(graph,i,vis);
+            cnt++;
+        }
+    }
+    cout<<cnt<<'\n';
 }
 
 int main()

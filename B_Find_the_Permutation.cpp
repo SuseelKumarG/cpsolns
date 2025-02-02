@@ -52,19 +52,32 @@ int lcml(int a,int b)
     return a;
 }
 
+bool comp(int x, int y) {
+    return x>y;
+}
+
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    vector<string> graph(n);
+    for(int i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        cin>>graph[i];
     }
-
+    vi ans(n);
+    iota(ans.begin(),ans.end(),1);
+    sort(ans.begin(),ans.end(),[&](int x,int y){
+        x--;
+        y--;
+        if(graph[x][y]=='1')
+        return x<y;
+        else
+        return x>y;
+    });
+    for(auto it:ans)
+    cout<<it<<' ';
+    cout<<'\n';
 }
 
 int main()

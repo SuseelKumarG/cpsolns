@@ -52,19 +52,51 @@ int lcml(int a,int b)
     return a;
 }
 
+bool poss(vl &a,int n,int m,ll k)
+{
+    ll cnt=1;
+    ll curr=0;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]>k)
+        return 0;
+        if(curr+a[i]>k)
+        {
+            curr=a[i];
+            cnt++;
+        }
+        else
+        curr+=a[i];
+    }
+    return cnt<=m;
+}
+
 void solve()
 {
     int n,m;
     cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    vl a(n);
+    for(auto &it:a)
+    cin>>it;
+    if(n<m)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        cout<<-1<<'\n';
+        return;
     }
-
+    ll r=accumulate(a.begin(),a.end(),0LL);
+    ll l=*min_element(a.begin(),a.end());
+    while(r-l>1)
+    {
+        ll mid=(r-l)/2+l;
+        if(poss(a,n,m,mid))
+        r=mid;
+        else
+        l=mid;
+    }
+    // if(poss(a,n,m,l))
+    // cout<<l<<'\n';
+    // else
+    cout<<r<<'\n';
 }
 
 int main()
@@ -72,7 +104,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

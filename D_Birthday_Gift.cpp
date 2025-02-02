@@ -52,19 +52,58 @@ int lcml(int a,int b)
     return a;
 }
 
+int soln(vi &bitss,vi &bit,vl &a)
+{
+    int n=a.size();
+    int ans=-1;
+    for(int ind=31;ind>=0;ind--)
+    {
+        if(bitss[ind]&1)
+        {
+            if(bit[ind])
+            continue;
+            else
+            return ans;
+        }
+        else
+        {
+            if(bit[ind])
+            ans=max(ans,bitss[ind]/2+1);
+        }
+    }
+    return ans;
+}
+
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    ll n,x;
+    cin>>n>>x;
+    vl a(n);
+    for(auto &it:a)
+    cin>>it;
+    for(int i=1;i<n;i++)
+    a[i]^=a[i-1];
+    vi bitss(32);
+    int ans=-1;
+    for(int ind=30;ind>=0;ind--)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        for(int i=0;i<n;i++)
+        {
+            if(!(a[i]&(1LL<<ind))&&(x&(1LL<<ind)))
+            bitss[ind]++;
+            // else if((a[i]&(1LL<<ind))&&!(x&(1LL<<ind)))
+            // {
+            //     cout<<-1<<'\n';
+            //     return;
+            // }
+        }
     }
-
+    for(int i=30;i>=0;i--)
+    {
+        if((x&(1LL<<i))&&!(a[n-1]&(1LL<<i)))
+        ans=max(ans,bitss[i]);
+    }
+    cout<<(ans==-1?-1:ans)<<'\n';
 }
 
 int main()

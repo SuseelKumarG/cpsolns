@@ -54,17 +54,30 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int h,m;
+    cin>>h>>m;
+    int fh=(h/10)%10;
+    int sh=(h)%10;
+    int fm=(m/10)%10;
+    int sm=(m)%10;
+    if(fh==2)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(fm>=4)
+        {
+            h++;
+            m=0;
+            h%=24;
+        }
     }
-
+    else
+    {
+        if(sh>=6)
+        {
+            h=(fh+1)*10;
+            m=0;
+        }
+    }
+    cout<<h<<' '<<m<<'\n';
 }
 
 int main()
@@ -72,7 +85,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

@@ -54,17 +54,65 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    // dunno what is n here
+    string s;
+    cin>>s;
+    int n=s.size();
+    vi col(3);
+    ll mul=1;
+    for(int i=7;i>=0;i--)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(s[i]=='1')
+        col[0]+=mul;
+        mul*=2;
     }
-
+    mul=1;
+    for(int i=15;i>=8;i--)
+    {
+        if(s[i]=='1')
+        col[1]+=mul;
+        mul*=2;
+    }
+    mul=1;
+    for(int i=23;i>=16;i--)
+    {
+        if(s[i]=='1')
+        col[2]+=mul;
+        mul*=2;
+    }
+    map<int,string>rep;
+    rep[0]="Black";
+    rep[1]="Whilte";
+    rep[2]="Red";
+    rep[3]="Green";
+    rep[4]="Blue";
+    vvi val(4);
+    val[0]={0,0,0};
+    val[1]={255,255,255};
+    val[2]={255,0,0};
+    val[3]={0,255,0};
+    val[4]={0,0,255};
+    bool mul=0;
+    pll ans={LLONG_MAX,-1};
+    for(int j=0;j<4;j++)
+    {
+        ll dist=0;
+        for(int i=0;i<3;j++)
+        {
+            ll curr=col[i]-val[j][i];
+            curr*=curr;
+            dist+=curr;
+        }
+        if(dist<ans.first)
+        {
+            ans={dist,j};
+            mul=0;
+        }
+    }
+    if(mul)
+    cout<<"AMBIGUOUS\n";
+    else
+    cout<<rep[ans.second]<<'\n';
 }
 
 int main()

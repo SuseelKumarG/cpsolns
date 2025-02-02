@@ -52,60 +52,93 @@ int lcml(int a,int b)
     return a;
 }
 
-ll ans=0;
-
-void dfs(vvi &graph,vvi &fin,vb &vis,int v)
-{
-    vis[v]=1;
-    for(auto it:graph[v])
-    {
-        if(vis[it])
-        continue;
-        fin[v].push_back(it);
-        dfs(graph,fin,vis,it);
-    }
-}
-
-int height(vvi&graph,vb &vis,int v,vi &hgt,vvi &sol)
+void dfs(vector<set<int>> &graph,set<int> &ind,int v,vb&vis)
 {
     if(vis[v])
-    return -1;
+    return;
     vis[v]=1;
+    ind.insert(v);
     for(auto it:graph[v])
-    {
-        hgt[v]=max(hgt[v],height(graph,vis,it,hgt,sol)+1);
-        sol[v].push_back(hgt[it]);
-    }
+    dfs(graph,ind,it,vis);
 }
-
-void dp(vvi )
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vvi temp(n);
-    vvi graph(n);
-    for(int i=0;i<n-1;i++)
+    int n,m1,m2;
+    cin>>n>>m1>>m2;
+    vector<set<int>> f(n),g(n);
+    int a=-1;
+    for(int i=0;i<m1;i++)
     {
         int x,y;
         cin>>x>>y;
+        a=x-1;
         x--;
         y--;
-        temp[x].push_back(y);
-        temp[y].push_back(x);
+        f[x].insert(y);
+        f[y].insert(x);
     }
-    int v;
+    int b=-1;
+    for(int i=0;i<m2;i++)
+    {
+        int x,y;
+        cin>>x>>y;
+        b=x-1;
+        x--;
+        y--;
+        g[x].insert(y);
+        g[y].insert(x);
+    }
+    set<int> indf,indg;
+    vb visf(n),visg(n);
     for(int i=0;i<n;i++)
     {
-        if(temp[i].size()==1)
+        if(!visf[i]&&f[i].size())
         {
-            v=i;
-            break;
+            dfs(f,indf,i,visf);
         }
     }
-    vvi sol(n);
-    vi hgt(n);
+    for(int i=0;i<n;i++)
+    {
+        if(!visg[i]&&g[i].size())
+        {
+            dfs(g,indg,i,visg);
+        }
+    }
+    int ans=0;
+    for(auto it:indf)
+    {
+        if(!indg.count(it))
+        {
+            ans+=f[it].size();
+            for(auto tit:f[it])
+            {
+                f[tit].erase(it);
+            }
+            f[it].clear();
+        }
+    }
+    set<int>finf;
+    vb donef(n);
+    bool once=0;
+    for(int i=0;i<n;i++)
+    {
+        if(f[i].size()&&!donef[i])
+        {
+            dfs(f,finf,i,donef);
+            if(once) ans++;
+            once=1;
+        }
+    }
+    if(finf.size()>0&&indg.size()>0)
+    for(auto it:indg)
+    {
+        if(!finf.count(it))
+        ans++;
+    }
+    else if(indg.size())
+    ans+=indg.size()-1;
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -113,6 +146,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

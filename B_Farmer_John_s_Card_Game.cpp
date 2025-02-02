@@ -56,15 +56,39 @@ void solve()
 {
     int n,m;
     cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    vvi a(n,vi(m));
+    for(int i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        for(auto &it:a[i])
+        cin>>it;
     }
-
+    for(auto &it:a)
+    sort(it.begin(),it.end());
+    map<int,int>pos;
+    for(int i=0;i<n;i++)
+    pos[a[i][0]]=i;
+    sort(a.begin(),a.end());
+    bool poss=1;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i][0]!=i)
+        poss=0;
+        int curr=i;
+        for(int j=1;j<m;j++)
+        {
+            curr+=n;
+            if(curr!=a[i][j])
+            poss=0;
+        }
+    }
+    if(poss)
+    for(auto it:a)
+    {
+        cout<<pos[it.front()]+1<<' ';
+    }
+    else
+    cout<<-1;
+    cout<<'\n';
 }
 
 int main()

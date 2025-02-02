@@ -54,17 +54,62 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    vl a(n);
+    for(auto&it:a)
+    cin>>it;
+    if(n==1)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        cout<<a[0]<<'\n';
+        return;
     }
-
+    ll ans=accumulate(a.begin(),a.end(),0LL);
+    for(int i=0;i<n-1;i++)
+    {
+        vl b;
+        for(int i=0;i<a.size()-1;i++)
+        {
+            b.push_back(a[i+1]-a[i]);
+        }
+        ll curr=0;
+        ll x=0,y=0;
+        for(int i=0;i<b.size();i++)
+        {
+            curr+=abs(b[i]);
+            if(curr>=MAX)
+            x++;
+            curr%=MAX;
+        }
+        vl c;
+        reverse(a.begin(),a.end());
+        for(int i=0;i<a.size()-1;i++)
+        {
+            c.push_back(a[i+1]-a[i]);
+        }
+        ll curr0=0;
+        for(int i=0;i<b.size();i++)
+        {
+            curr0+=abs(c[i]);
+            if(curr0>=MAX)
+            y++;
+            curr0%=MAX;
+        }
+        ans=max(ans,curr);
+        ans=max(ans,curr0);
+        if(x>y)
+        a=b;
+        else if(x==y)
+        {
+            if(curr>curr0)
+            a=b;
+            else
+            a=c;
+        }
+        else
+        a=c;
+    }
+    cout<<ans<<'\n';
 }
 
 int main()

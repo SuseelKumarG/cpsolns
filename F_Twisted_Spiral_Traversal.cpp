@@ -52,19 +52,63 @@ int lcml(int a,int b)
     return a;
 }
 
+bool ok(int x,int y,int n,int m)
+{
+    return x<n&&x>-1&&y<m&&y>-1;
+}
+
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n,m,q;
+    cin>>n>>m>>q;
+    vvi graph(n,vi(m,0));
+    vvi vis(n,vi(m,0));
+    set<pii>finder;
+    while(q--)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        int x,y,z;
+        cin>>x>>y>>z;
+        x--;
+        y--;
+        if(ok(x,y,n,m))
+        {graph[x][y]=z;
+        finder.insert({x,y});}
     }
-
+    int x,y;
+    cin>>x>>y;
+    x--;
+    y--;
+    int dir=1;
+    map<int,int>change;
+    change[1]=2;
+    change[2]=3;
+    change[3]=4;
+    change[4]=1;
+    map<int,pii>look;
+    look[1]={0,1};
+    look[2]={-1,0};
+    look[3]={0,-1};
+    look[4]={1,0};
+    map<int,pii>path;
+    look[1]={1,0};
+    look[2]={0,1};
+    look[3]={-1,0};
+    look[4]={0,-1};
+    while(ok(x, y, n, m)) {
+        if(vis[x][y]) 
+        break;
+        vis[x][y] = 1;
+        if(ok(x, y, n, m) && finder.count({x, y})) {
+            cout << x+1 << ' ' << y+1 << ' ' << graph[x][y] << ' ' << dir << '\n';
+        }
+        pii add = look[dir];
+        if(!ok(x+add.first, y+add.second, n, m) || vis[x+add.first][y+add.second]) {
+            dir = change[dir];
+        }
+        x += look[dir].first;
+        y += look[dir].second;
+    }
+    cout<<'\n';
 }
 
 int main()
@@ -72,7 +116,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

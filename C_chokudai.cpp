@@ -52,19 +52,36 @@ int lcml(int a,int b)
     return a;
 }
 
+map<string ,ll>cnt;
+
+
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    string s;
+    cin>>s;
+    int n=s.length();
+    map<int,string>pos;
+    pos['c']="";
+    pos['h']="c";
+    pos['o']="ch";
+    pos['k']="cho";
+    pos['u']="chok";
+    pos['d']="choku";
+    pos['a']="chokud";
+    pos['i']="chokuda";
+    for(int i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        if(s[i]=='c')
+        {
+            cnt["c"]++;
+        }
+        else if(pos.count(s[i]))
+        {
+            cnt[pos[s[i]]+s[i]]+=cnt[pos[s[i]]];
+            cnt[pos[s[i]]+s[i]]%=MAX;
+        }
     }
-
+    cout<<cnt["chokudai"]<<'\n';
 }
 
 int main()
@@ -72,7 +89,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

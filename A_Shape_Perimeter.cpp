@@ -56,15 +56,28 @@ void solve()
 {
     int n,m;
     cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    vii a(n);
+    for(auto &it:a)
+    cin>>it.first>>it.second;
+    int x,y;
+    x=a[0].first,y=a[0].second;
+    ll ans=4*m;
+    for(int i=1;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        int o=x+m,p=y+m;
+        x+=a[i].first;
+        y+=a[i].second;
+        ans+=4*m;
+        if(y<p)
+        {
+            ans-=(p-y)*(1+(x!=o));
+        }
+        if(x<p)
+        {
+            ans-=(o-x)*(1+(y!=p));
+        }
     }
-
+    cout<<ans<<'\n';
 }
 
 int main()

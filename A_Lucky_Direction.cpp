@@ -54,16 +54,15 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
-    {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
-    }
+    string s;
+    cin>>s;
+    map<char,char>opp;
+    opp['N']='S';
+    opp['S']='N';
+    opp['E']='W';
+    opp['W']='E';
+    for(auto it:s)
+    cout<<opp[it];
 
 }
 
@@ -72,7 +71,6 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
-    cin>>t;
     while(t--)
     {
         solve();

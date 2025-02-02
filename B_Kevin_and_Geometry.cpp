@@ -54,17 +54,62 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
+    int n;
+    cin>>n;
+    map<int,int>hsh;
+    int ok=-1;
+    for(int i=0;i<n;i++)
     {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+        int x;
+        cin>>x;
+        hsh[x]++;
+        if(hsh[x]>1)
+        ok=x;
     }
-
+    int cnt=0;
+    if(ok==-1)
+    {
+        cout<<-1<<'\n';
+        return;
+    }
+    hsh[ok]-=2;
+    vi x;
+    for(auto it:hsh)
+    if(it.second)
+    {
+        while(it.second--)
+        x.push_back(it.first);
+    }
+    int minm=INT_MAX;
+    pii ans;
+    for(int i=0;i<x.size()-1;i++)
+    {
+        if(minm>x[i+1]-x[i])
+        {
+            minm=x[i+1]-x[i];
+            ans={x[i+1],x[i]};
+        }
+    }
+    if(minm>=2*ok)
+    {
+        cout<<-1<<'\n';
+        return;
+    }
+    cout<<ok<<' '<<ok<<' ';
+    cout<<ans.first<<' '<<ans.second<<' ';
+    // for(auto it:hsh)
+    // {
+    //     // if(it.first==ok)
+    //     // continue;
+    //     if(cnt>2)
+    //     break;
+    //     while(it.second--&&cnt<2)
+    //     {
+    //         cnt++;
+    //         cout<<it.first<<' ';
+    //     }
+    // }
+    cout<<'\n';
 }
 
 int main()

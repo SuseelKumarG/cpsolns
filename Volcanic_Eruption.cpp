@@ -54,17 +54,67 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n,m;
-    cin>>n>>m;
-    vector<pair<pair<pll,ll>,bool>>points;
-    for(int i=0;i<m;i++)
-    {
-        ll x,y,r;
-        cin>>x>>y>>r;
-        points.push_back({{{max(0LL,x-r),y},r},1});
-        points.push_back({{{max(0LL,x+r),y},r},0});
+    ll n,p;
+    cin>>n>>p;
+    vl a(n);
+    for(auto &it:a)
+    cin>>it;
+    vl ans(n),pre;
+    for(int i=0;i<n;i++){
+        ans[i]=a[i]/p;
+        ans[i]+=((a[i]%p)?1:0);
     }
-
+    vi pos;
+    for(int i=0;i<n;i++)
+    if(!a[i])
+    pos.push_back(i);
+    pre=ans;
+    ll curr=0;
+    for(auto it:pos)
+    {
+        curr=0;
+        for(int i=it+1;i<n;i++)
+    {
+        if(!a[i])
+        break;
+        else
+        {
+            curr=max(curr,ans[i]);
+            pre[i]=curr;
+        }
+    }
+    }
+    for(auto it:pos)
+    {
+        curr=0;
+    for(int i=it-1;i>=0;i--)
+    {
+        if(!a[i])
+        break;
+        else
+        {
+            curr=max(curr,ans[i]);
+            pre[i]=min(pre[i],curr);
+        }
+    }
+    }
+    int l=pos.front();
+    curr=0;
+    for(int i=l-1;i>=0;i--)
+    {
+        curr=max(curr,ans[i]);
+        pre[i]=max(pre[i],curr);
+    }
+    l=pos.back();
+    curr=0;
+    for(int i=l+1;i<n;i++)
+    {
+        curr=max(curr,ans[i]);
+        pre[i]=curr;
+    }
+    for(auto it:pre)
+    cout<<it<<' ';
+    cout<<'\n';
 }
 
 int main()

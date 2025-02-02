@@ -54,8 +54,8 @@ int lcml(int a,int b)
 
 void solve()
 {
-    int n;
-    cin>>n;
+    int n,k;
+    cin>>n>>k;
     vl a(n);
     for(auto &it:a)
     cin>>it;
