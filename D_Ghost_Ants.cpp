@@ -67,68 +67,34 @@ ll binexp(ll a,ll b)
 
 void solve()
 {
-    int n;
-    cin>>n;
+    ll n,t;
+    cin>>n>>t;
     string s;
     cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    vl a(n);
+    for(auto&it:a)
+    cin>>it;
+    // sort(a.begin(),a.end());
+    vl pos;
+    for(int i=0;i<n;i++)
     {
-        dp[0].push_back({s[i]-'0',1});
-    }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
-    {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        if(s[i]=='1')
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
+            pos.push_back(a[i]);
         }
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+    sort(pos.begin(),pos.end());
+    ll ans=0;
+    for(int i=0;i<n;i++)
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
+        if(s[i]=='1')
+        continue;
+        int x=upper_bound(pos.begin(),pos.end(),a[i])-pos.begin()-1;
+        int y=lower_bound(pos.begin(),pos.end(),a[i]-2LL*t)-pos.begin();
+        if(x>=y)
+        ans+=x-y+1;
     }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
-    }
+    cout<<ans<<'\n';
 }
 
 int main()

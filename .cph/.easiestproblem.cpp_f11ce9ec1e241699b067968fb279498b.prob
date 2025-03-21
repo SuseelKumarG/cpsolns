@@ -1,0 +1,1 @@
+{"name":"Local: easiestproblem","url":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\easiestproblem.cpp","tests":[{"id":1740840527409,"input":"3\n2\n01\n5\n10110\n9\n101010101","output":"0\n2\n4\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gsuse\\OneDrive\\Desktop\\cpsolns\\easiestproblem.cpp","group":"local","local":true}

@@ -67,67 +67,47 @@ ll binexp(ll a,ll b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    int n,q;
+    cin>>n>>q;
+    vi a(n);
+    for(auto&it:a)
+    cin>>it;
+    int x=a[0];
+    map<int,vi>ans;
+    for(int i=1;i<2*n;i++)
     {
-        dp[0].push_back({s[i]-'0',1});
-    }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
-    {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        if(x>a[i])
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
+            ans[x].push_back(i);
+            a.push_back(a[i]);
+        }
+        else
+        {
+            a.push_back(x);
+            x=a[i];
+            ans[x].push_back(i);
         }
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+    int maxm=*max_element(a.begin(),a.end());
+    while(q--)
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
-    }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
+        int i,k;
+        cin>>i>>k;
+        i--;
+        if(a[i]!=maxm)
+        {
+            cout<<upper_bound(ans[a[i]].begin(),ans[a[i]].end(),k)-ans[a[i]].begin()<<'\n';
+            continue;
+        }
+        if(k<i)
+        {
+            cout<<0<<'\n';
+            continue;
+        }
+        if(a[0]!=maxm)
+        cout<<k-i+1<<'\n';
+        else
+        cout<<k-i<<'\n';
     }
 }
 
@@ -136,6 +116,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

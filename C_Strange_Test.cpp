@@ -67,68 +67,60 @@ ll binexp(ll a,ll b)
 
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    int x,y;
+    cin>>x>>y;
+    ll add=INT_MAX;
+    vi a,b;
+    for(int i=31;i>=0;i--)
     {
-        dp[0].push_back({s[i]-'0',1});
+        if((x>>i)&1)
+        a.push_back(1);
+        else
+        a.push_back(0);
+        if((y>>i)&1)
+        b.push_back(1);
+        else
+        b.push_back(0);
     }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
+    int ind=-1;
+    for(int i=0;i<32;i++)
     {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        if((!b[i])&&a[i])
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
+            ind=i;
+            break;
         }
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+    if(ind==-1)
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
+        cout<<1<<'\n';
+        return;
     }
-    else if(x==y)
+    int last=-1;
+    for(int i=0;i<ind;i++)
     {
-        cout<<min({a,b})<<'\n';
+        if(b[i]&&!a[i])
+        last=i;
     }
-    else if(x==z)
+    ll temp=31-last;
+    ll temp1=0;
+    for(int i=last;i<32;i++)
     {
-        cout<<min({a,c})<<'\n';
+        if(a[i])
+        temp1+=(1LL<<(31-i));
     }
-    else
+    add=min(add,(1LL<<temp)-temp1+((x+(1LL<<temp)-temp1)!=y));
+    temp=0;
+    temp1=0;
+    for(int i=ind;i<32;i++)
     {
-        cout<<min({b,c})<<'\n';
+        if(a[i])
+        temp+=1LL<<(31-i);
+        if(b[i])
+        temp1+=1LL<<(31-i);
     }
+    add=min(add,temp-temp1+1);
+    cout<<add<<'\n';
 }
 
 int main()
@@ -136,6 +128,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

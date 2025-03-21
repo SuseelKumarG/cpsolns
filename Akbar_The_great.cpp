@@ -65,70 +65,59 @@ ll binexp(ll a,ll b)
     return ans;
 }
 
+bool poss(vvi &graph,vi &pro,int i,int x,int y)
+{
+    queue<pii>fin;
+    fin.push({x,0});
+    bool ans=1;
+    while(!fin.empty())
+    {
+        int temp=fin.front().first;
+        int lev=fin.front().second;
+        fin.pop();
+        if(lev>y)
+        return 1;
+        if(pro[temp])
+        {
+            if(pro[temp]!=i)
+            return 0;
+            continue;
+        }
+        pro[temp]=i;
+        for(auto it:graph[temp])
+        fin.push({it,lev+1});
+    }
+}
+
 void solve()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    int n,m,r;
+    cin>>n>>m>>r;
+    vvi graph(n);
+    for(int i=0;i<m;i++)
     {
-        dp[0].push_back({s[i]-'0',1});
+        int x,y;
+        cin>>x>>y;
+        x--;
+        y--;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
     }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
+    vi pro(n);
+    bool ans=1;
+    for(int i=1;i<=r;i++)
     {
-        curr/=3;
-        for(int j=0;j<curr;j++)
-        {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
-        }
+        int x,y;
+        cin>>x>>y;
+        x--;
+        ans&=poss(graph,pro,i,x,y);
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+    for(auto it:pro)
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
+        if(!it)
+        ans=0;
     }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
-    }
+    cout<<(ans?"Yes":"No")<<'\n';
 }
 
 int main()
@@ -136,6 +125,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

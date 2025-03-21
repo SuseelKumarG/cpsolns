@@ -69,66 +69,39 @@ void solve()
 {
     int n;
     cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    vl a(2*n);
+    for(auto&it:a)
+    cin>>it;
+    sort(a.begin(),a.end());
+    if(n==1)
     {
-        dp[0].push_back({s[i]-'0',1});
+        ll curr=abs(a[0])+abs(a[1]);
+        cout<<min(curr,a[1]-a[0])<<'\n';
+        return;
     }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
+    ll curr=0;
+    for(auto it:a)
+    curr+=abs(it);
+    if(n==2)
     {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        ll temp=0;
+        for(ll i=0;i<2*n;i++)
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
+            temp+=abs(a[i]-2);
         }
+        curr=min(curr,temp);
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+    if(!(n&1))
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
+        ll temp=0;
+        for(ll i=0;i<2*n-1;i++)
+        {
+            temp+=abs(a[i]+1);
+        }
+        temp+=abs(a[2*n-1]-n);
+        curr=min(curr,temp);
     }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
-    }
+    cout<<curr<<'\n';
 }
 
 int main()
@@ -136,6 +109,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

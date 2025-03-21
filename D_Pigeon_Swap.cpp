@@ -69,65 +69,49 @@ void solve()
 {
     int n;
     cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    int q;
+    cin>>q;
+    vi nest(n);
+    for(int i=0;i<n;i++)
+    nest[i]=i;
+    while(q--)
     {
-        dp[0].push_back({s[i]-'0',1});
-    }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
-    {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        int t;
+        cin>>t;
+        if(t==1)
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
+            int a,b;
+            cin>>a>>b;
+            a--;
+            b--;
+            nest[a]=b;
         }
-    }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
-    {
-        cout<<a+b+c-max({a,b,c})<<'\n';
-    }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
+        else if(t==2)
+        {
+            int a,b;
+            cin>>a>>b;
+            a--;
+            b--;
+            vi x,y;
+            for(int i=0;i<n;i++)
+            {
+                if(nest[i]==a)
+                x.push_back(i);
+                if(nest[i]==b)
+                y.push_back(i);
+            }
+            for(auto it:x)
+            nest[it]=b;
+            for(auto it:y)
+            nest[it]=a;
+        }
+        else
+        {
+            int a;
+            cin>>a;
+            a--;
+            cout<<nest[a]+1<<'\n';
+        }
     }
 }
 

@@ -65,77 +65,49 @@ ll binexp(ll a,ll b)
     return ans;
 }
 
-void solve()
+vvl dp(64,vl(64,LLONG_MAX));
+
+void func()
 {
-    int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    dp[0][0]=0;
+    for(int i=1;i<64;i++)
     {
-        dp[0].push_back({s[i]-'0',1});
-    }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
-    {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        for(int j=63;j>=0;j--)
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
+            for(int k=63;k>=0;k--)
             {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
+                if((k>=i)&&(dp[k-i][j]!=LLONG_MAX))
+                dp[k][j]=min(dp[k-i][j]+(1LL<<i),dp[k][j]);
+                if((j>=i)&&(dp[k][j-i]!=LLONG_MAX))
+                dp[k][j]=min(dp[k][j-i]+(1LL<<i),dp[k][j]);
             }
         }
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+}
+
+void solve()
+{
+    ll x,y;
+    cin>>x>>y;
+    ll ans=LLONG_MAX;
+    for(int i=0;i<63;i++)
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
+        for(int j=0;j<63;j++)
+        {
+            if((x>>i)==(y>>j))
+            ans=min(ans,dp[i][j]);
+        }
     }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
-    }
+    cout<<ans<<'\n';
 }
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    func();
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

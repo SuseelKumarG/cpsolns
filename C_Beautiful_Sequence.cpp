@@ -16,7 +16,7 @@ typedef vector<ll> vl;
 typedef vector<vl> vvl; 
 typedef vector<pll> vll; 
 typedef vector<bool> vb;
-#define MAX 1000000007
+#define MAX 998244353
 #define N 10010
 
 long long gcdl(long long a, long long b){
@@ -69,66 +69,52 @@ void solve()
 {
     int n;
     cin>>n;
-    string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
+    vi a(n);
+    for(auto &it:a)
+    cin>>it;
+    vi temp;
+    ll o=0,t=0;
+    for(auto it:a)
     {
-        dp[0].push_back({s[i]-'0',1});
-    }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
-    {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+        if(it==1)
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
-            {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
-            }
-            else
-            {
-                dp[i].push_back({y,min({b,c})});
-            }
+            o=1;
+            temp.push_back(it);
+        }
+        else if(it==2&&o)
+        {
+            t=1;
+            temp.push_back(2);
+        }
+        else if(t)
+        {
+            temp.push_back(3);
         }
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
+    a=temp;
+    n=a.size();
+    ll ans=0;
+    o=0,t=0;
+    for(int i=0;i<n;i++)
     {
-        cout<<a+b+c-max({a,b,c})<<'\n';
+        if(a[i]==1)
+        {
+            o++;
+        }
+        else if(a[i]==2)
+        {
+            t*=2;
+            t%=MAX;
+            t+=o;
+            t%=MAX;
+        }
+        else
+        {
+            ans+=t;
+            ans%=MAX;
+        }
     }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
-    }
+    cout<<ans<<'\n';
 }
 
 int main()
@@ -136,6 +122,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();

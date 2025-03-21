@@ -52,17 +52,12 @@ int lcml(int a,int b)
     return a;
 }
 
-ll binexp(ll a,ll b)
+int outp(string s)
 {
-    ll ans=1;
-    while (b)
-    {
-        if(b&1)
-        ans=(ans*a)%MAX;
-        b>>=1;
-        a=(a*a)%MAX;
-    }
-    return ans;
+    cout<<"? "+s<<endl;
+    int x;
+    cin>>x;
+    return x;
 }
 
 void solve()
@@ -70,65 +65,56 @@ void solve()
     int n;
     cin>>n;
     string s;
-    cin>>s;
-    vector<vii>dp(n);
-    for(int i=0;i<s.length();i++)
-    {
-        dp[0].push_back({s[i]-'0',1});
-    }
-    ll curr=s.length();
-    ll mul=1;
-    for(int i=1;i<n;i++)
-    {
-        curr/=3;
-        for(int j=0;j<curr;j++)
+    int cnt=0;
+    int rev=0;
+    while(s.length()!=n)
+    {   
+        if(!rev)
         {
-            int x=dp[i-1][j*3].first;
-            int y=dp[i-1][j*3+1].first;
-            int z=dp[i-1][j*3+2].first;
-            int a=dp[i-1][j*3].second;
-            int b=dp[i-1][j*3+1].second;
-            int c=dp[i-1][j*3+2].second;
-            if(x==y&&y==z)
+            if(!cnt)
             {
-                dp[i].push_back({x,a+b+c-max({a,b,c})});
-            }
-            else if(x==y)
-            {
-                dp[i].push_back({x,min({a,b})});
-            }
-            else if(x==z)
-            {
-                dp[i].push_back({x,min({a,c})});
+                if(outp(s+"0"))
+                {
+                    s+="0";
+                    cnt=0;
+                }
+                else
+                cnt++;
             }
             else
             {
-                dp[i].push_back({y,min({b,c})});
+                if(outp(s+"1"))
+                {
+                    s+="1";
+                    cnt=0;
+                }
+                else
+                {
+                    cnt=0;
+                    rev=1;
+                }
+            }
+        }
+        else
+        {
+            if(!cnt)
+            {
+                if(outp("0"+s))
+                {
+                    s="0"+s;
+                    cnt=0;
+                }
+                else
+                cnt++;
+            }
+            else
+            {
+                s="1"+s;
+                cnt=0;
             }
         }
     }
-    int x=dp[n-1][0].first;
-    int y=dp[n-1][0+1].first;
-    int z=dp[n-1][0+2].first;
-    int a=dp[n-1][0].second;
-    int b=dp[n-1][0+1].second;
-    int c=dp[n-1][0+2].second;
-    if(x==y&&y==z)
-    {
-        cout<<a+b+c-max({a,b,c})<<'\n';
-    }
-    else if(x==y)
-    {
-        cout<<min({a,b})<<'\n';
-    }
-    else if(x==z)
-    {
-        cout<<min({a,c})<<'\n';
-    }
-    else
-    {
-        cout<<min({b,c})<<'\n';
-    }
+    cout<<"! "+s<<endl;
 }
 
 int main()
@@ -136,6 +122,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();
