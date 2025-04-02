@@ -67,39 +67,72 @@ ll binexp(ll a,ll b)
 
 void solve()
 {
-    int n,k;
-    cin>>n>>k;
-    vvi graph(n);
-    for(int i=0;i<n-1;i++)
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    if(n==1)
     {
-        int x,y;
-        cin>>x>>y;
-        x--;
-        y--;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
-    }
-    if(n==k)
-    {
-        cout<<0<<'\n';
+        cout<<-1<<'\n';
         return;
     }
-    vb vis(n);
-    vl ans(n);
-    function<int(int,int)> dfs=[&](int v,int d)
+    unordered_map<char,int>hsh;
+    for(auto it:s)
+    hsh[it]++;
+    int cnt=0;
+    vi ans;
+    string poss="LIT";
+    while(1)
     {
-        if(vis[v])
-        return 0;
-        vis[v]=1;
-        int x=0;
-        for(auto it:graph[v])
-        x+=dfs(it,d+1);
-        ans[v]=d-x;
-        return x+1;
-    };
-    dfs(0,0);
-    sort(ans.begin(),ans.end(),greater<>());
-    cout<<accumulate(ans.begin(),ans.begin()+k,0LL)<<'\n';
+        if(hsh['L']==hsh['I']&&hsh['I']==hsh['T'])
+        {
+            break;
+        }
+        int maxm=0;
+        for(auto it:hsh)
+        maxm=max(it.second,maxm);
+        if(maxm==n)
+        {
+            cout<<-1<<'\n';
+            return;
+        }
+        maxm++;
+        string temp;
+        int ind=-1;
+        char ch;
+        for(int i=0;i<(s.length()-1);i++)
+        {
+            for(auto it:poss)
+            {
+                if(it!=s[i]&&it!=s[i+1]&&s[i]!=s[i+1])
+                {
+                    if(hsh[it]<maxm)
+                    {
+                        maxm=hsh[it];
+                        ch=it;
+                        ind=i;
+                    }
+                }
+            }
+        }
+        hsh[ch]++;
+        ans.push_back(ind+1);
+        for(int i=0;i<s.length();i++)
+        {
+            temp.push_back(s[i]);
+            if(i==ind)
+            temp.push_back(ch);
+        }
+        s=temp;
+    }
+    if(cnt>(2*n))
+    {
+        cout<<-1<<'\n';
+        return;
+    }
+    cout<<ans.size()<<'\n';
+    for(auto it:ans)
+    cout<<it<<'\n';
 }
 
 int main()
@@ -107,6 +140,7 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ll t=1;
+    cin>>t;
     while(t--)
     {
         solve();
