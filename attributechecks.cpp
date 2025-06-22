@@ -1,6 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
  
+#define int long long
 typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
@@ -31,76 +36,91 @@ ll lcml(ll a,ll b)
     a=(a*b)/gcdl(a,b);
     return a;
 }
-int gcd(int a, int b){
-    while(a > 0 && b > 0){
-        if(a > b){
-            a %= b;
-        }
-        else{
-            b %= a;
-        }
-    }
-    return a + b;
-}
-int lcml(int a,int b)
+
+ll binexp(ll a,ll b)
 {
-    a=(a*b)/gcd(a,b);
-    return a;
+    ll ans=1;
+    while (b)
+    {
+        if(b&1)
+        ans=(ans*a)%MAX;
+        b>>=1;
+        a=(a*a)%MAX;
+    }
+    return ans;
 }
 
 void solve()
 {
     int n,m;
     cin>>n>>m;
-    vi a(n);
     vvi dp(m+10,vi(m+10));
-    for(auto &it:a)
-    cin>>it;
-    vi x,y;
-    int t=0;
-    for(int i=0;i<n;i++)
+    vi a,b;
+    int curr=0;
+    for(int k=0;k<n;k++)
     {
-        if(a[i]>0)
-        x.push_back(a[i]);
-        else if(a[i]<0)
-        y.push_back(-a[i]);
+        int x;
+        cin>>x;
+        if(x>0)
+        a.push_back(x);
+        else if(x<0)
+        b.push_back(-x);
         else
         {
-            sort(x.begin(),x.end());
-            sort(y.begin(),y.end());
-            t++;
-            for(int j=0;j<=t;j++)
+            sort(a.begin(),a.end());
+            sort(b.begin(),b.end());
+            curr++;
+            for(int i=0;i<=curr;i++)
             {
-                if(j)
+                int add=0;
+                add+=upper_bound(a.begin(),a.end(),i)-a.begin()-(upper_bound(a.begin(),a.end(),i)!=a.begin());
+                add+=upper_bound(b.begin(),b.end(),curr-i)-b.begin()-(upper_bound(b.begin(),b.end(),curr-i)!=b.begin());
+                if(i)
                 {
-                    int w=j-1,s=t-j;
-                    int add=(int)((upper_bound(x.begin(),x.end(),w)-x.begin())+(upper_bound(y.begin(),y.end(),s)-y.begin()));
-                    dp[t][j]=max(dp[t][j],dp[t-1][j-1]+add);
+                    dp[i][curr]=max(dp[i][curr],dp[i-1][curr-1]+add);
                 }
-                if(j<t)
+                if(i<curr)
                 {
-                    int w=j,s=t-1-j;
-                    int add=(int)((upper_bound(x.begin(),x.end(),w)-x.begin())+(upper_bound(y.begin(),y.end(),s)-y.begin()));
-                    dp[t][j]=max(dp[t][j],dp[t-1][j]+add);
+                    dp[i][curr]=max(dp[i][curr],dp[i][curr-1]+add);
                 }
             }
-            x.clear();
-            y.clear();
+            a.clear();
+            b.clear();
         }
     }
-    sort(x.begin(),x.end());
-    sort(y.begin(),y.end());
-    int ans=0;
-    for(int j=0;j<=t;j++)
     {
-        int w=j,s=t-j;
-        int add=(int)((upper_bound(x.begin(),x.end(),w)-x.begin())+(upper_bound(y.begin(),y.end(),s)-y.begin()));
-        ans=max(ans,dp[t][j]+add);
+        sort(a.begin(),a.end());
+        sort(b.begin(),b.end());
+        curr++;
+        curr=min(curr,m);
+        for(int i=0;i<=curr;i++)
+        {
+            int add=0;
+            add+=upper_bound(a.begin(),a.end(),i)-a.begin();
+            add+=upper_bound(b.begin(),b.end(),curr-i)-b.begin();
+            if(i)
+            {
+                dp[i][curr]=max(dp[i][curr],dp[i-1][curr-1]+add);
+            }
+            if(i<curr)
+            {
+                dp[i][curr]=max(dp[i][curr],dp[i][curr-1]+add);
+            }
+        }
+        a.clear();
+        b.clear();
+    }
+    int ans=0;
+    for(int i=0;i<=m;i++)
+    {
+        for(int j=0;j<=m;j++)
+        cout<<dp[i][j]<<' ';
+        cout<<'\n';
     }
     cout<<ans<<'\n';
 }
 
-int main()
+int32_t main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);

@@ -54,91 +54,58 @@ int lcml(int a,int b)
 
 vii mov={{0,1},{-1,0},{0,-1},{1,0}};
 
-ll bfs(vector<string>&graph,pii s,pii t)
+ll bfs(pii s,pii t,vector<string>&graph)
 {
     int n=graph.size();
     int m=graph[0].size();
-    priority_queue<pair<ll,pair<ll,pair<ll,pair<ll,pii>>>>,vector<pair<ll,pair<ll,pair<ll,pair<ll,pii>>>>>, greater<pair<ll,pair<ll,pair<ll,pair<ll,pii>>>>>>fin;
-    vector<vb>vis(n,vb(m));
-    fin.push({0,{0,{0,{-1,s}}}});
-    vvl ans(n,vl(m,LLONG_MAX));
-    ans[0][0]=0;
-    while(!fin.empty())
+    queue<vector<int>>fin[4];
+    for(int i=0;i<4;i++)
     {
-        pair<ll,pair<ll,pair<ll,pair<ll,pii>>>>now=fin.top();
-        if(now.second.second.second.second==t)
-        {
-            return now.first;
-        }
-        fin.pop();
-        if(vis[now.second.second.second.second.first][now.second.second.second.second.second])
-        continue;
-        vis[now.second.second.second.second.first][now.second.second.second.second.second]=1;
+        fin[0].push({0,s.first,s.second,i});
+    }
+    vvi ans[4];
+    vvi tem(n,vi(m,INT_MAX));
+    for(int i=0;i<4;i++)
+    ans[i]=tem;    
+    while(1)
+    {
+        vi temp(4,-1);
+        temp[0]=INT_MAX;
+        int ind=-1;
         for(int i=0;i<4;i++)
         {
-            pii temp=now.second.second.second.second;
-            temp.first+=mov[i].first;
-            temp.second+=mov[i].second;
-            if(graph[temp.first][temp.second]=='#')
-            continue;
-            ll dir=i,dist=now.first+1;
-            ll lim=now.second.first,curr=now.second.second.first;
-            if(i!=now.second.second.second.first)
+            if((!fin[i].empty())&&(temp>fin[i].front()))
             {
-                lim=3;
-                curr=1;
+                temp=fin[i].front();
+                ind=i;
             }
-            else if(lim==curr)
-            {
-                lim=2;
-                curr=1;
-                dist+=2;
-            }
-            else
-            {
-                curr++;
-            }
-            if(ans[temp.first][temp.second]>=dist)
-            fin.push({dist,{lim,{curr,{dir,temp}}}});
         }
-    }
-    return -1;
-}
-
-bool dfs(vector<string>&graph,pll s,pll t)
-{
-    
-    int n=graph.size();
-    int m=graph[0].size();
-    priority_queue<pair<ll,pll>,vector<pair<ll,pll>>, greater<pair<ll,pll>>>fin;
-    vector<vb>vis(n,vb(m));
-    fin.push({0,s});
-    vvl ans(n,vl(m,LLONG_MAX));
-    ans[0][0]=0;
-    while(!fin.empty())
-    {
-        pair<ll,pll>now=fin.top();
-        if(now.second==t)
-        {
-            return 1;
-        }
-        fin.pop();
-        if(vis[now.second.first][now.second.second])
+        if(ind==-1)
+        break;
+        fin[ind].pop();
+        if(ans[temp[3]][temp[1]][temp[2]]<=temp[0])
         continue;
-        vis[now.second.first][now.second.second]=1;
+        ans[temp[3]][temp[1]][temp[2]]=temp[0];
         for(int i=0;i<4;i++)
         {
-            pii temp=now.second;
-            temp.first+=mov[i].first;
-            temp.second+=mov[i].second;
-            if(graph[temp.first][temp.second]=='#')
+            if(i==temp[3])
             continue;
-            ll dist=now.first;
-            if(ans[temp.first][temp.second]>=dist)
-            fin.push({dist,temp});
+            for(int j=1;j<4;j++)
+            {
+                int x=temp[1]+mov[i].first*j;
+                int y=temp[2]+mov[i].second*j;
+                if(graph[x][y]=='#')
+                break;
+                fin[j].push({temp[0]+j,x,y,i});
+            }
         }
     }
-    return 0;
+    int curr=INT_MAX;
+    for(int i=0;i<4;i++)
+    {
+        curr=min(curr,ans[i][t.first][t.second]);
+    }
+    return (curr==INT_MAX?-1:curr);
 }
 
 void solve()
@@ -159,10 +126,7 @@ void solve()
             t={i,j};
         }
     }
-    if(dfs(graph,s,t))
-    cout<<bfs(graph,s,t);
-    else
-    cout<<-1;
+    cout<<bfs(s,t,graph);
 }
 
 int main()
